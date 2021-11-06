@@ -1,0 +1,10 @@
+C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\SistemaDePedidos-CompañiaNativa\CapaEntidades\bin\Debug\CapaEntidades.dll
+C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\SistemaDePedidos-CompañiaNativa\CapaEntidades\bin\Debug\CapaEntidades.pdb
+C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\SistemaDePedidos-CompañiaNativa\CapaEntidades\obj\Debug\CapaEntidades.csproj.CoreCompileInputs.cache
+C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\SistemaDePedidos-CompañiaNativa\CapaEntidades\obj\Debug\CapaEntidades.dll
+C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\SistemaDePedidos-CompañiaNativa\CapaEntidades\obj\Debug\CapaEntidades.pdb
+C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\NuevaVersion-CompNativa\CapaEntidades\bin\Debug\CapaEntidades.dll
+C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\NuevaVersion-CompNativa\CapaEntidades\bin\Debug\CapaEntidades.pdb
+C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\NuevaVersion-CompNativa\CapaEntidades\obj\Debug\CapaEntidades.csproj.CoreCompileInputs.cache
+C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\NuevaVersion-CompNativa\CapaEntidades\obj\Debug\CapaEntidades.dll
+C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\NuevaVersion-CompNativa\CapaEntidades\obj\Debug\CapaEntidades.pdb

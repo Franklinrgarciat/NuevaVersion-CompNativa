@@ -1,0 +1,25 @@
+24-09-2021 17:47 - Error en el nivel del transporte al recibir los resultados del servidor. (provider: TCP Provider, error: 0 - Se ha forzado la interrupción de una conexión existente por el host remoto.)cargarControles
+29-09-2021 12:54 - La transacción asociada con la conexión actual se ha completado, pero no se ha desechado. Debe desecharse antes de utilizar la conexión para ejecutar instrucciones SQL.AgregarPedidoBase1
+29-09-2021 13:16 - La transacción asociada con la conexión actual se ha completado, pero no se ha desechado. Debe desecharse antes de utilizar la conexión para ejecutar instrucciones SQL.AgregarPedidoBase1
+29-09-2021 15:58 - Ya hay un DataReader abierto asociado a este Command, debe cerrarlo primero.AgregarPedidoBase1
+30-09-2021 18:30 - Error de comunicación con el administrador de transacciones subyacente.AgregarPedidoBase2
+05-10-2021 14:50 - String or binary data would be truncated.
+The statement has been terminated.AgregarPedidoBase1
+05-10-2021 18:03 - Divide by zero error encountered.cargarControles
+05-10-2021 18:03 - Divide by zero error encountered.cargarControles
+05-10-2021 18:04 - Divide by zero error encountered.cargarControles
+05-10-2021 18:06 - Divide by zero error encountered.cargarControles
+05-10-2021 18:08 - Divide by zero error encountered.cargarControles
+05-10-2021 18:37 - No se puede encontrar la tabla 0.cargarControles
+06-10-2021 18:07 - Error de comunicación con el administrador de transacciones subyacente.AgregarPedidoBase2
+06-10-2021 18:42 - Error de comunicación con el administrador de transacciones subyacente.AgregarPedidoBase2
+07-10-2021 09:34 - The parameterized query '(@FILLER varchar(17),@APRUEBA varchar(8000),@CIRCUITO int,@COD_C' expects the parameter '@LEYENDA_4', which was not supplied.AgregarPedidoBase1
+07-10-2021 11:01 - Se anuló la transacción.AgregarPedidoBase2
+19-10-2021 11:46 - La cadena de entrada no tiene el formato correcto.cargarControles
+19-10-2021 11:49 - La cadena de entrada no tiene el formato correcto.cargarControles
+02-11-2021 15:49 - The variable name '@COMENTARIO' has already been declared. Variable names must be unique within a query batch or stored procedure.AgregarPedidoBase1
+02-11-2021 15:57 - Cannot insert duplicate key row in object 'dbo.GVA21' with unique index 'IX_5'. The duplicate key value is (23,  0000000003171).
+The statement has been terminated.AgregarPedidoBase1
+04-11-2021 17:13 - The parameterized query '(@FILLER varchar(8000),@APRUEBA varchar(8000),@CIRCUITO int,@COD' expects the parameter '@NRO_O_COMP', which was not supplied.AgregarPedidoBase1
+04-11-2021 17:16 - The parameterized query '(@FILLER varchar(8000),@APRUEBA varchar(8000),@CIRCUITO int,@COD' expects the parameter '@NRO_O_COMP', which was not supplied.AgregarPedidoBase1
+04-11-2021 17:28 - The parameterized query '(@FILLER varchar(8000),@APRUEBA varchar(8000),@CIRCUITO int,@COD' expects the parameter '@NRO_O_COMP', which was not supplied.AgregarPedidoBase1

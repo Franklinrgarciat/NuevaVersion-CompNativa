@@ -1,0 +1,10 @@
+C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\SistemaDePedidos-CompañiaNativa\Globales\bin\Debug\Globales.dll
+C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\SistemaDePedidos-CompañiaNativa\Globales\bin\Debug\Globales.pdb
+C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\SistemaDePedidos-CompañiaNativa\Globales\obj\Debug\Globales.csproj.CoreCompileInputs.cache
+C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\SistemaDePedidos-CompañiaNativa\Globales\obj\Debug\Globales.dll
+C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\SistemaDePedidos-CompañiaNativa\Globales\obj\Debug\Globales.pdb
+C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\NuevaVersion-CompNativa\Globales\bin\Debug\Globales.dll
+C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\NuevaVersion-CompNativa\Globales\bin\Debug\Globales.pdb
+C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\NuevaVersion-CompNativa\Globales\obj\Debug\Globales.csproj.CoreCompileInputs.cache
+C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\NuevaVersion-CompNativa\Globales\obj\Debug\Globales.dll
+C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\NuevaVersion-CompNativa\Globales\obj\Debug\Globales.pdb
