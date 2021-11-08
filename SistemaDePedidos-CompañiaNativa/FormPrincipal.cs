@@ -969,7 +969,7 @@ namespace SistemaDePedidos_CompañiaNativa
                             {
                                 if (oNegociosPedido.ReservarPedido(oPedido1))
                                 {
-                                    
+                                    Guardo = true;
                                     foreach (var item in PedidosReferencia)
                                     {
                                         string pedido1 = item.PrimerPedido;
@@ -979,58 +979,38 @@ namespace SistemaDePedidos_CompañiaNativa
                                         {
                                             Pedido oPedidoContinuacion1 = ReservarContinuacionPedido(pedido1);
                                             oNegociosPedido.ReservarPedido(oPedidoContinuacion1);
+                                            Guardo = true;
                                         }
                                         if (pedido2 != oPedido1.Numero && pedido2 != "")
                                         {
                                             Pedido oPedidoContinuacion2 = ReservarContinuacionPedido(pedido2);
                                             oNegociosPedido.ReservarPedido(oPedidoContinuacion2);
+                                            Guardo = true;
                                         }
                                         if (pedido3 != oPedido1.Numero && pedido3 != "")
                                         {
                                             Pedido oPedidoContinuacion3 = ReservarContinuacionPedido(pedido3);
                                             oNegociosPedido.ReservarPedido(oPedidoContinuacion3);
-                                        }
-                                        Guardo = true;
+                                            Guardo = true;
+                                        } 
                                     }
-                                    if (Guardo)
-                                    {
-                                        if (oNegociosPedido.Conectar(Conexion, Conexion2))
-                                        {
-                                            CargarControles();
-                                            oNegociosPedido.EditarEstadoPedidoActual(ConfigurationManager.AppSettings.Get("EstadoPedidoReserva"));
-                                            MessageBox.Show("Pedido RESERVADO correctamente.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                        }
-                                    }
-                                    else
-                                    {
-                                        MessageBox.Show("ERROR!! No se reservó el pedido.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    }
-                                }
-                                else
-                                {
-                                    MessageBox.Show("ERROR!! No se reservó el pedido.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                                 scope.Complete();
                             }
-                            
+                            if (Guardo)
+                            {
+                                if (oNegociosPedido.Conectar(Conexion, Conexion2))
+                                {
+                                    CargarControles();
+                                    //oNegociosPedido.EditarEstadoPedidoActual(ConfigurationManager.AppSettings.Get("EstadoPedidoReserva"));
+                                    MessageBox.Show("Pedido RESERVADO correctamente.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("ERROR!! No se reservó el pedido.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
                         }
-                        //else
-                        //{
-                        //    Pedido oPedido = LinkearControles(false);
-                        //    if (oNegociosPedido.ReservarPedido(oPedido))
-                        //    {
-                        //        if (oNegociosPedido.Conectar(Conexion, Conexion2))
-                        //        {
-                        //            MessageBox.Show("Pedido RESERVADO correctamente.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        //            lbl_reservado.Visible = true;
-                        //            CargarControles();
-                        //        }
-                        //    }
-                        //    else
-                        //    {
-                        //        MessageBox.Show("ERROR!! No se reservó el pedido.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        //    }
-                        //}
                     }
                     else
                         MessageBox.Show("Error!! El pedido que intenta RESERVAR no tiene el estado para realizar esta acción", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1098,43 +1078,23 @@ namespace SistemaDePedidos_CompañiaNativa
                                             }
                                         }
                                     }
-                                    if (Guardo)
-                                    {
-                                        oNegociosPedido.EditarEstadoPedidoActual(ConfigurationManager.AppSettings.Get("EstadoPedido")); 
-                                        MessageBox.Show("La reserva del pedido fue ELIMANADA CORRECTAMENTE!!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                        CargarControles();
-                                    }
-                                    else
-                                    {
-                                        MessageBox.Show("ERROR!! No eliminó la reserva.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                    }
-                                }
-                                else
-                                {
-                                    MessageBox.Show("ERROR!! No eliminó la reserva.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
                                 }
                                 scope.Complete();
                             }
+                            if (Guardo)
+                            {
+                                if (oNegociosPedido.Conectar(Conexion, Conexion2))
+                                {
+                                    CargarControles();
+                                    //oNegociosPedido.EditarEstadoPedidoActual(ConfigurationManager.AppSettings.Get("EstadoPedido"));
+                                    MessageBox.Show("La reserva del pedido fue ELIMANADA CORRECTAMENTE!!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("ERROR!! No eliminó la reserva.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                            }
                         }
-                        //else
-                        //{
-                        //    Pedido oPedido = LinkearControles(false);
-                        //    if (oNegociosPedido.EliminarReserva(txtPedido.Text, oPedido.TalonarioPedido.ToString()))
-                        //    {
-                        //        oNegociosPedido.SumarStockSta19(oPedido);
-                        //        oNegociosPedido.EditarEstadoPedidoActual("Aprobado");
-                        //        MessageBox.Show("La reserva del pedido fue ELIMANADA CORRECTAMENTE!!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                        //        lbl_reservado.Visible = false;
-                        //        btnSacarReserva.Visible = false;
-                        //        btn_reservar.Visible = true;
-                        //        CargarControles();
-                        //    }
-                        //    else
-                        //    {
-                        //        MessageBox.Show("ERROR!! No eliminó la reserva.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                        //    }
-                        //}
-
                     }
                     else
                         MessageBox.Show("Error!! El pedido no tiene el estado para realizar esta acción", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);

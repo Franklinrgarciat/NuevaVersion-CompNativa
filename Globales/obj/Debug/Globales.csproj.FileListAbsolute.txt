@@ -8,3 +8,4 @@ C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\NuevaVersion-CompNativa
 C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\NuevaVersion-CompNativa\Globales\obj\Debug\Globales.csproj.CoreCompileInputs.cache
 C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\NuevaVersion-CompNativa\Globales\obj\Debug\Globales.dll
 C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\NuevaVersion-CompNativa\Globales\obj\Debug\Globales.pdb
+C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\NuevaVersion-CompNativa\Globales\obj\Debug\Globales.csprojAssemblyReference.cache
