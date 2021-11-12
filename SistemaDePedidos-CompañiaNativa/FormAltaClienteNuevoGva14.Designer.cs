@@ -80,7 +80,7 @@ namespace SistemaDePedidos_CompañiaNativa
             this.groupBox1.Controls.Add(this.label1);
             this.groupBox1.Controls.Add(this.txtNombreCliente);
             this.groupBox1.Controls.Add(this.Label2);
-            this.groupBox1.Location = new System.Drawing.Point(6, 12);
+            this.groupBox1.Location = new System.Drawing.Point(17, 12);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(396, 322);
             this.groupBox1.TabIndex = 67;
@@ -90,7 +90,7 @@ namespace SistemaDePedidos_CompañiaNativa
             // txtCodProvincia
             // 
             this.txtCodProvincia.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtCodProvincia.Location = new System.Drawing.Point(11, 239);
+            this.txtCodProvincia.Location = new System.Drawing.Point(169, 243);
             this.txtCodProvincia.Name = "txtCodProvincia";
             this.txtCodProvincia.Size = new System.Drawing.Size(32, 20);
             this.txtCodProvincia.TabIndex = 88;
@@ -100,7 +100,7 @@ namespace SistemaDePedidos_CompañiaNativa
             // btn_cancelarRegistro
             // 
             this.btn_cancelarRegistro.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_cancelarRegistro.Location = new System.Drawing.Point(219, 282);
+            this.btn_cancelarRegistro.Location = new System.Drawing.Point(302, 282);
             this.btn_cancelarRegistro.Name = "btn_cancelarRegistro";
             this.btn_cancelarRegistro.Size = new System.Drawing.Size(75, 23);
             this.btn_cancelarRegistro.TabIndex = 87;
@@ -111,7 +111,7 @@ namespace SistemaDePedidos_CompañiaNativa
             // btn_GuardarRegistro
             // 
             this.btn_GuardarRegistro.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_GuardarRegistro.Location = new System.Drawing.Point(300, 282);
+            this.btn_GuardarRegistro.Location = new System.Drawing.Point(217, 282);
             this.btn_GuardarRegistro.Name = "btn_GuardarRegistro";
             this.btn_GuardarRegistro.Size = new System.Drawing.Size(75, 23);
             this.btn_GuardarRegistro.TabIndex = 86;
@@ -122,10 +122,10 @@ namespace SistemaDePedidos_CompañiaNativa
             // txtProvinciaCliente
             // 
             this.txtProvinciaCliente.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtProvinciaCliente.Location = new System.Drawing.Point(49, 239);
+            this.txtProvinciaCliente.Location = new System.Drawing.Point(207, 243);
             this.txtProvinciaCliente.Name = "txtProvinciaCliente";
             this.txtProvinciaCliente.ReadOnly = true;
-            this.txtProvinciaCliente.Size = new System.Drawing.Size(107, 20);
+            this.txtProvinciaCliente.Size = new System.Drawing.Size(170, 20);
             this.txtProvinciaCliente.TabIndex = 85;
             this.txtProvinciaCliente.TabStop = false;
             this.txtProvinciaCliente.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtProvinciaCliente_KeyDown);
@@ -135,7 +135,7 @@ namespace SistemaDePedidos_CompañiaNativa
             this.label9.AutoSize = true;
             this.label9.BackColor = System.Drawing.Color.Transparent;
             this.label9.ForeColor = System.Drawing.Color.Black;
-            this.label9.Location = new System.Drawing.Point(8, 225);
+            this.label9.Location = new System.Drawing.Point(166, 229);
             this.label9.Name = "label9";
             this.label9.Size = new System.Drawing.Size(54, 13);
             this.label9.TabIndex = 84;
@@ -144,9 +144,9 @@ namespace SistemaDePedidos_CompañiaNativa
             // txtLocalidadCliente
             // 
             this.txtLocalidadCliente.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtLocalidadCliente.Location = new System.Drawing.Point(168, 239);
+            this.txtLocalidadCliente.Location = new System.Drawing.Point(11, 243);
             this.txtLocalidadCliente.Name = "txtLocalidadCliente";
-            this.txtLocalidadCliente.Size = new System.Drawing.Size(209, 20);
+            this.txtLocalidadCliente.Size = new System.Drawing.Size(145, 20);
             this.txtLocalidadCliente.TabIndex = 83;
             this.txtLocalidadCliente.TabStop = false;
             this.txtLocalidadCliente.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtLocalidadCliente_KeyDown);
@@ -156,7 +156,7 @@ namespace SistemaDePedidos_CompañiaNativa
             this.label8.AutoSize = true;
             this.label8.BackColor = System.Drawing.Color.Transparent;
             this.label8.ForeColor = System.Drawing.Color.Black;
-            this.label8.Location = new System.Drawing.Point(165, 225);
+            this.label8.Location = new System.Drawing.Point(8, 229);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(56, 13);
             this.label8.TabIndex = 82;
@@ -328,7 +328,7 @@ namespace SistemaDePedidos_CompañiaNativa
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(410, 346);
+            this.ClientSize = new System.Drawing.Size(432, 350);
             this.Controls.Add(this.groupBox1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));

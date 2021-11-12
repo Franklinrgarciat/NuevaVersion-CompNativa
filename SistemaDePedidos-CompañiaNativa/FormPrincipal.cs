@@ -113,7 +113,12 @@ namespace SistemaDePedidos_CompañiaNativa
                 {
                     txtDireccionClienteOcasional.Visible = false;
                     btnSacarReserva.Visible = false;
-                    lbl_reservado.Visible = false;
+                    lblPedido1.Visible = false;
+                    lblPedido2.Visible = false;
+                    lblPedido3.Visible = false;
+                    lblprimerPed.Visible = false;
+                    lblSegundoPed.Visible = false;
+                    lblTercerPed.Visible = false;
                     ParametrizarGrilla();
                     HabilitarControles(false);
                     CargarControles();
@@ -127,6 +132,13 @@ namespace SistemaDePedidos_CompañiaNativa
                     lblTelefonoClienteOcasional.Visible = false;
                     TxtTelefonoClienteOcasional.Visible = false;
                     lblAltaClienteNuevo.Visible = false;
+                    txtLeyenda1.ReadOnly = true;
+                    txtLeyenda2.ReadOnly = true;
+                    txtLeyenda3.ReadOnly = true;
+                    txtLeyenda4.ReadOnly = true;
+                    txt_Leyenda5.ReadOnly = true;
+                    txtImporteSeña.ReadOnly = true;
+
                 }
                 else
                 {
@@ -316,27 +328,6 @@ namespace SistemaDePedidos_CompañiaNativa
                 // ITEMS PRECARGADOS
                 if (!precargado)
                 {
-                    //CapaDatos.GuardoEnBaseDeDatos pedidos = new CapaDatos.GuardoEnBaseDeDatos();
-                    //if (!(pedidos.TraerDatoEspecial("SEIN_ARTICULOS_CLIENTE_DEFECTO", "CodigoCliente", true, "CodigoCliente", true, txtCliente.Text) == ""))
-                    //{
-                    //    DataTable dt = new DataTable();
-                    //    dt = pedidos.TraerArticulosDeCliente(txtCliente.Text);
-
-                    //    dgv_Principal.Rows.Clear();
-                    //    dgv_Principal.Refresh();
-
-                    //    for (int i = 0; i <= (dt.Rows.Count - 1); i++)
-                    //    {
-                    //        dgv_Principal.Rows.Add();
-                    //        dgv_Principal.Rows[dgv_Principal.Rows.Count - 1].Cells["ColCodigo"].Value = dt.Rows[i].Table.Columns[0].ToString();
-                    //        dgv_Principal.Rows[dgv_Principal.Rows.Count - 1].Cells["ColDescripcion"].Value = dt.Rows[i].Table.Columns[1].ToString();
-                    //        dgv_Principal.Rows[dgv_Principal.Rows.Count - 1].Cells["ColCantidad"].Value = 1.0;
-                    //        dgv_Principal.Rows[dgv_Principal.Rows.Count - 1].Cells["ColPrecioLista"].Value = 0.01;
-                    //        dgv_Principal.Rows[dgv_Principal.Rows.Count - 1].Cells["ColPrecioVenta"].Value = 0.00;
-                    //        dgv_Principal.Rows[dgv_Principal.Rows.Count - 1].Cells["ColPorcentajeBonif"].Value = 100.0;
-                    //        dgv_Principal.Rows[dgv_Principal.Rows.Count - 1].Cells["ColTotal"].Value = 0.00;
-                    //    }
-                    //}
                     precargado = true;
                     dgv_Principal.AllowUserToAddRows = true;
                     dgv_Principal.AllowUserToDeleteRows = true;
@@ -345,29 +336,29 @@ namespace SistemaDePedidos_CompañiaNativa
 
 
                 // Recorro del las zonas que se encuentra en el INI 
-                string CodZonaCliente = oNegociosPedido.TraerDato(false, "GVA14", "COD_ZONA", false, "COD_CLIENT", true, sCodCliente);
-                string NombreZona = oNegociosPedido.TraerDato(false, "GVA05", "NOMBRE_ZON", false, "COD_ZONA", true, CodZonaCliente);
-                var Estado = false;
-                string value = ConfigurationManager.AppSettings.Get("Zonas");
-                char delimiter = ',';
-                string[] substrings = value.Split(delimiter);
-                foreach (string Zonasp in substrings)
-                {
-                    if (NombreZona.Trim() == Zonasp.Trim())
-                        Estado = true;
-                }
+                //string CodZonaCliente = oNegociosPedido.TraerDato(false, "GVA14", "COD_ZONA", false, "COD_CLIENT", true, sCodCliente);
+                //string NombreZona = oNegociosPedido.TraerDato(false, "GVA05", "NOMBRE_ZON", false, "COD_ZONA", true, CodZonaCliente);
+                ////var Estado = false;
+                //string value = ConfigurationManager.AppSettings.Get("Zonas");
+                //char delimiter = ',';
+                //string[] substrings = value.Split(delimiter);
+                //foreach (string Zonasp in substrings)
+                //{
+                //    if (NombreZona.Trim() == Zonasp.Trim())
+                //        Estado = true;
+                //}
 
-                if (Estado == true)
-                {
-                    if (NombreZona.Trim() == "NORTE")
-                        dtpFechaEntrega.Value = TraerProximoDiaHabilZona(NombreZona.Trim());
-                    else if (NombreZona.Trim() == "SUR")
-                        dtpFechaEntrega.Value = TraerProximoDiaHabilZona(NombreZona.Trim());
-                    else if (NombreZona.Trim() == "OESTE")
-                        dtpFechaEntrega.Value = TraerProximoDiaHabilZona(NombreZona.Trim());
-                }
-                else
-                    dtpFechaEntrega.Value = TraerProximoDiaHabil96hs();
+                //if (Estado == true)
+                //{
+                //    if (NombreZona.Trim() == "NORTE")
+                //        dtpFechaEntrega.Value = TraerProximoDiaHabilZona(NombreZona.Trim());
+                //    else if (NombreZona.Trim() == "SUR")
+                //        dtpFechaEntrega.Value = TraerProximoDiaHabilZona(NombreZona.Trim());
+                //    else if (NombreZona.Trim() == "OESTE")
+                //        dtpFechaEntrega.Value = TraerProximoDiaHabilZona(NombreZona.Trim());
+                //}
+                //else
+                //    dtpFechaEntrega.Value = TraerProximoDiaHabil96hs();
             }
             catch (Exception ex)
             {
@@ -401,6 +392,16 @@ namespace SistemaDePedidos_CompañiaNativa
                 oPedidoNuevo.Bonif = Convert.ToDecimal(txtBonif.Text);
                 oPedidoNuevo.IdDirEntrega = Convert.ToInt32(cmbDirEntrega.SelectedValue);
                 oPedidoNuevo.Cotiz = Convert.ToDecimal(lblCotizacion.Text);
+                oPedidoNuevo.Leyenda1 = txtLeyenda1.Text;
+                oPedidoNuevo.Leyenda2 = txtLeyenda2.Text;
+                oPedidoNuevo.Leyenda3 = txtLeyenda3.Text;
+                oPedidoNuevo.Leyenda4 = txtLeyenda4.Text;
+                if (txtImporteSeña.Text == "")
+                {
+                    txtImporteSeña.Text = "0";
+                }
+                oPedidoNuevo.ImporteSeña = txtImporteSeña.Text;
+                
             }
             else
             {
@@ -408,6 +409,7 @@ namespace SistemaDePedidos_CompañiaNativa
                 oPedidoNuevo.CondicionVta = txtCondicionVenta.Text;
                 oPedidoNuevo.Deposito = txtDeposito.Text;
                 oPedidoNuevo.Fecha = dtpFecha.Value.Date;
+                oPedidoNuevo.FechaEntrega = dtpFechaEntrega.Value.Date;
                 oPedidoNuevo.FechaEntrega = dtpFechaEntrega.Value.Date;
                 oPedidoNuevo.Talonario = txtTalonario.Text;
                 oPedidoNuevo.Transporte = "1";
@@ -417,6 +419,15 @@ namespace SistemaDePedidos_CompañiaNativa
                 oPedidoNuevo.Numero2 = txtPedido.Text;
                 oPedidoNuevo.Bonif = 0;
                 oPedidoNuevo.Cotiz = Convert.ToDecimal(lblCotizacion.Text);
+                oPedidoNuevo.Leyenda1 = txtLeyenda1.Text;
+                oPedidoNuevo.Leyenda2 = txtLeyenda2.Text;
+                oPedidoNuevo.Leyenda3 = txtLeyenda3.Text;
+                oPedidoNuevo.Leyenda4 = txtLeyenda4.Text;
+                if (txtImporteSeña.Text == "")
+                {
+                    txtImporteSeña.Text = "0";
+                }
+                oPedidoNuevo.ImporteSeña = txtImporteSeña.Text;
 
                 ClienteOcasional cliente = new ClienteOcasional();
                 cliente.DOMICILIO = txtDireccionClienteOcasional.Text;
@@ -494,6 +505,18 @@ namespace SistemaDePedidos_CompañiaNativa
             oPedidoNuevo.TalonarioPedido = iTalonario;
             oPedidoNuevo.TalonarioPedido2 = iTalonario2;
             oPedidoNuevo.Total = Convert.ToDecimal(txtTotal.Text);
+            if (Convert.ToDecimal(txtTotalGeneralSumado.Text) == Convert.ToDecimal(oPedidoNuevo.ImporteSeña) && bModificarPedido)
+            {
+                oPedidoNuevo.Leyenda5 = "ABONADO";
+            }
+            else if (Convert.ToDecimal(txtTotal.Text) == Convert.ToDecimal(oPedidoNuevo.ImporteSeña) && bModificarPedido == false && bNuevo)
+            {
+                oPedidoNuevo.Leyenda5 = "ABONADO";
+            }
+            else if(bNuevo)
+            {
+                oPedidoNuevo.Leyenda5 = "PRESUPUESTADO";
+            }
             return oPedidoNuevo;
         }
 
@@ -552,7 +575,9 @@ namespace SistemaDePedidos_CompañiaNativa
             txtEmailClienteOcasional.Text = "";
             TxtTelefonoClienteOcasional.Text = "";
             txtDireccionClienteOcasional.Text = "";
-            dtpFechaEntrega.Value = DateTime.Now;
+            txtImporteSeña.Text = "";
+            txtTotalGeneralSumado.Text = "0";
+            //dtpFechaEntrega.Value = DateTime.Now;
             try
             {
                 dgv_Principal.Rows.Clear();
@@ -662,6 +687,24 @@ namespace SistemaDePedidos_CompañiaNativa
             Pedido oPedido = new Pedido();
             try
             {
+                #region OCULTAR Y MOSTRAR CONTROLES
+                txtImporteSeña.ReadOnly = true;
+                txtLeyenda1.BorderStyle = BorderStyle.None;
+                txtLeyenda1.BorderStyle = BorderStyle.None;
+                txtLeyenda2.BorderStyle = BorderStyle.None;
+                txtLeyenda3.BorderStyle = BorderStyle.None;
+                txtLeyenda4.BorderStyle = BorderStyle.None;
+                //txtLeyenda1.Visible = true;
+                //txtLeyenda2.Visible = true;
+                //txtLeyenda3.Visible = true;
+                //txtLeyenda4.Visible = true;
+                //txt_Leyenda5.Visible = true;
+                lblPedido1.Visible = false;
+                lblPedido2.Visible = false;
+                lblPedido3.Visible = false;
+                lblprimerPed.Visible = false;
+                lblSegundoPed.Visible = false;
+                lblTercerPed.Visible = false;
                 lblAltaClienteNuevo.Visible = false;
                 txtTransporte.Visible = true;
                 txtBonif.Visible = true;
@@ -671,6 +714,8 @@ namespace SistemaDePedidos_CompañiaNativa
                 txtDireccionClienteOcasional.Visible = false;
                 TxtTelefonoClienteOcasional.Visible = false;
                 lblEmailClienteOcasional.Visible = false;
+                #endregion
+
                 oPedido = oNegociosPedido.CargarDatos();
                 bool Bandera = true;
                 string value = ConfigurationManager.AppSettings.Get("InhabilitarbtnModificar");
@@ -693,7 +738,12 @@ namespace SistemaDePedidos_CompañiaNativa
                 txtDeposito.Text = oPedido.Deposito;
                 dtpFechaEntrega.Value = oPedido.FechaEntrega;
                 txtBonif.Text = Convert.ToString(oPedido.Bonif);
-
+                txtLeyenda1.Text = oPedido.Leyenda1;
+                txtLeyenda2.Text = oPedido.Leyenda2;
+                txtLeyenda3.Text = oPedido.Leyenda3;
+                txtLeyenda4.Text = oPedido.Leyenda4;
+                txt_Leyenda5.Text = oPedido.Leyenda5;
+                //txtImporteSeña.Text = oPedido.ImporteSeña;
                 cmbDirEntrega.DataSource = oNegociosPedido.CargarDirecciones(txtCliente.Text).Tables[0];
                 cmbDirEntrega.ValueMember = "ID_DIRECCION_ENTREGA";
                 cmbDirEntrega.DisplayMember = "Direccion";
@@ -707,12 +757,15 @@ namespace SistemaDePedidos_CompañiaNativa
                 }
 
 
-                bool existe = oNegociosPedido.ComprobarDato("STA14", "FILLER", true, oPedido.Numero + "'AND ESTADO_MOV='P");
+                //bool existe = oNegociosPedido.ComprobarDato("STA14", "FILLER", true, oPedido.Numero + "'AND ESTADO_MOV='P");
                 if (txtEstadoPedido.Text == "Anulado")
                 {
+                    btnImprimir.Enabled = false;
+                    btnSacarReserva.Enabled = false;
                     btn_reservar.Enabled = false;
                     btn_anular.Enabled = false;
                     btnModificar.Enabled = false;
+                    txt_Leyenda5.Visible = false;
                 }
                 else
                 {
@@ -720,18 +773,23 @@ namespace SistemaDePedidos_CompañiaNativa
                     btn_reservar.Enabled = true;
                     btn_anular.Enabled = true;
                     btnModificar.Enabled = true;
-                }
-                if (existe && txtEstadoPedido.Text != "Anulado")
-                {
-                    lbl_reservado.Visible = true;
-                    btn_reservar.Visible = false;
-                    btnSacarReserva.Visible = true;
-                    btnModificar.Enabled = false;
-                }
-                else
-                {
-                    lbl_reservado.Visible = false;
-                    btnSacarReserva.Visible = false;
+                    btnImprimir.Enabled = true;
+                    lblTotalGeneralSumado.Visible = true;
+                    txtTotalGeneralSumado.Visible = true;
+                    txt_Leyenda5.Visible = true;
+                    if (txt_Leyenda5.Text == "RESERVADO")
+                    {
+                        btnSacarReserva.Visible = true;
+                        btnImprimir.Enabled = true;
+                        btnSacarReserva.Enabled = true;
+                        btn_reservar.Visible = false;
+                        btn_anular.Enabled = true;
+                        btnModificar.Enabled = false;
+                    }
+                    if (txt_Leyenda5.Text == "ABONADO" && txtEstadoPedido.Text =="Aprobado")
+                    {
+                        btnSacarReserva.Visible = false;
+                    }
                 }
                 string Horario = oNegociosPedido.TraerDato(false, "DIRECCION_ENTREGA", "HORARIO_ENTREGA", true, "ID_DIRECCION_ENTREGA", true, oPedido.IdDirEntrega.ToString());
                 lblHorario.Text = Interaction.IIf(Horario.Trim() == string.Empty, "Sin dato horario", Horario).ToString();
@@ -788,6 +846,34 @@ namespace SistemaDePedidos_CompañiaNativa
                         dSubTotal = dSubTotal + oPedido.Detalle[x].Total;
                     }
                 }
+
+                    List<PedidosTablaPropia> PedidosReferencia = oNegociosPedido.TraerPedidosDeReferencia(txtPedido.Text);
+                    foreach (var item in PedidosReferencia)
+                    {
+                        if (item.PrimerPedido != "" && item.PrimerPedido != txtPedido.Text)
+                        {
+                            lblprimerPed.Visible = true;
+                            lblPedido1.Visible = true;
+                            lblPedido1.Text = item.PrimerPedido;
+                        }
+                        if (item.SegundoPedido != "" && item.SegundoPedido != txtPedido.Text)
+                        {
+                            lblSegundoPed.Visible = true;
+                            lblPedido2.Visible = true;
+                            lblPedido2.Text = item.SegundoPedido;
+                        }
+                        if (item.TercerPedido != "" && item.TercerPedido != txtPedido.Text)
+                        {
+                            lblTercerPed.Visible = true;
+                            lblPedido3.Visible = true;
+                            lblPedido3.Text = item.TercerPedido;
+                        }
+                        txtTotalGeneralSumado.Text = item.ImporteTotalPedido;
+                        txtImporteSeña.Text = item.Seña;
+
+                    }
+                
+               
                 ActualizarTotales();
             }
             catch (Exception ex)
@@ -795,7 +881,6 @@ namespace SistemaDePedidos_CompañiaNativa
                 LogDeErrores(ex, "cargarControles");
                 throw;
             }
-
         }
 
         public void LogDeErrores(Exception ex, string funcion)
@@ -815,6 +900,17 @@ namespace SistemaDePedidos_CompañiaNativa
         {
             try
             {
+                txtLeyenda1.BorderStyle = BorderStyle.FixedSingle;
+                txtLeyenda1.BorderStyle = BorderStyle.FixedSingle;
+                txtLeyenda2.BorderStyle = BorderStyle.FixedSingle;
+                txtLeyenda3.BorderStyle = BorderStyle.FixedSingle;
+                txtLeyenda4.BorderStyle = BorderStyle.FixedSingle;
+                txtLeyenda1.ReadOnly = false;
+                txtLeyenda2.ReadOnly = false;
+                txtLeyenda3.ReadOnly = false;
+                txtLeyenda4.ReadOnly = false;
+                txt_Leyenda5.ReadOnly = true;
+                txtImporteSeña.ReadOnly = false;
                 listaDeStock = new List<decimal>();
                 lblDeposito.Visible = true;
                 txtDeposito.Visible = true;
@@ -900,9 +996,11 @@ namespace SistemaDePedidos_CompañiaNativa
 
         private void btnImprimir_Click(object sender, EventArgs e)
         {
+            Cursor.Current = Cursors.WaitCursor;
             string numeroPedido = oNegociosPedido.TraerDato(false, "NUMEROS_PEDIDOS_SISTEMA_VENTAS", "PRIMER_PEDIDO", true, "PRIMER_PEDIDO", true, txtPedido.Text + "' OR SEGUNDO_PEDIDO='" + txtPedido.Text + "' OR TERCER_PEDIDO='" + txtPedido.Text + "");
             int talonarioPedido = Convert.ToInt32(ConfigurationManager.AppSettings.Get("Talonario"));
             oReporte.imprimirPedido(numeroPedido, talonarioPedido.ToString(), Conexion);
+            Cursor.Current = Cursors.Default;
         }
 
         private void btn_anular_Click(object sender, EventArgs e)
@@ -916,6 +1014,7 @@ namespace SistemaDePedidos_CompañiaNativa
                     DialogResult result = MessageBox.Show("¿Esta seguro de anular el pedido?", "Atención!!", MessageBoxButtons.YesNo);
                     if (result == DialogResult.Yes)
                     {
+                        Cursor.Current = Cursors.WaitCursor;
                         if (ValidarEstado == "2" | ValidarEstado == "6" | ValidarEstado == "1")
                         {
                             if (oNegociosPedido.AnularPedido(txtPedido.Text, Convert.ToInt32(ConfigurationManager.AppSettings.Get("Talonario"))))
@@ -935,6 +1034,7 @@ namespace SistemaDePedidos_CompañiaNativa
                         }
                         else
                             MessageBox.Show("Error!! El pedido que intenta anular no tiene el estado para realizar esta acción", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                        Cursor.Current = Cursors.Default;
                     }
                 }
                 else
@@ -957,47 +1057,43 @@ namespace SistemaDePedidos_CompañiaNativa
                 DialogResult result = MessageBox.Show($"¿Esta seguro desea reservar el pedido?", "Atención!!", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
                 {
+                    Cursor.Current = Cursors.WaitCursor;
                     if (txtEstadoPedido.Text == "Aprobado" || txtEstadoPedido.Text == "Revisado")
                     {
                         Pedido oPedido1 = LinkearControles(false);
                         List<PedidosTablaPropia> PedidosReferencia = oNegociosPedido.TraerPedidosDeReferencia(txtPedido.Text);
-                        bool Guardo = false;
 
                         if (PedidosReferencia.Count <= 3)
                         {
-                            using(TransactionScope scope = new TransactionScope())
+                            List<Pedido> lPedidos = new List<Pedido>();
+                            lPedidos.Add(oPedido1);
+
+
+                            foreach (var item in PedidosReferencia)
                             {
-                                if (oNegociosPedido.ReservarPedido(oPedido1))
+                                if (item.PrimerPedido != oPedido1.Numero && item.PrimerPedido != "")
                                 {
-                                    Guardo = true;
-                                    foreach (var item in PedidosReferencia)
-                                    {
-                                        string pedido1 = item.PrimerPedido;
-                                        string pedido2 = item.SegundoPedido;
-                                        string pedido3 = item.TercerPedido;
-                                        if (pedido1 != oPedido1.Numero && pedido1 != "")
-                                        {
-                                            Pedido oPedidoContinuacion1 = ReservarContinuacionPedido(pedido1);
-                                            oNegociosPedido.ReservarPedido(oPedidoContinuacion1);
-                                            Guardo = true;
-                                        }
-                                        if (pedido2 != oPedido1.Numero && pedido2 != "")
-                                        {
-                                            Pedido oPedidoContinuacion2 = ReservarContinuacionPedido(pedido2);
-                                            oNegociosPedido.ReservarPedido(oPedidoContinuacion2);
-                                            Guardo = true;
-                                        }
-                                        if (pedido3 != oPedido1.Numero && pedido3 != "")
-                                        {
-                                            Pedido oPedidoContinuacion3 = ReservarContinuacionPedido(pedido3);
-                                            oNegociosPedido.ReservarPedido(oPedidoContinuacion3);
-                                            Guardo = true;
-                                        } 
-                                    }
+                                    Pedido oPedidoContinuacion1 = ReservarContinuacionPedido(item.PrimerPedido);
+                                    lPedidos.Add(oPedidoContinuacion1);
+
                                 }
-                                scope.Complete();
+                                if (item.SegundoPedido != oPedido1.Numero && item.SegundoPedido != "")
+                                {
+                                    Pedido oPedidoContinuacion2 = ReservarContinuacionPedido(item.SegundoPedido);
+                                    lPedidos.Add(oPedidoContinuacion2);
+
+                                }
+                                if (item.TercerPedido != oPedido1.Numero && item.TercerPedido != "")
+                                {
+                                    Pedido oPedidoContinuacion3 = ReservarContinuacionPedido(item.TercerPedido);
+
+                                    lPedidos.Add(oPedidoContinuacion3);
+
+                                }
                             }
-                            if (Guardo)
+
+
+                            if (oNegociosPedido.ReservarPedido(lPedidos))
                             {
                                 if (oNegociosPedido.Conectar(Conexion, Conexion2))
                                 {
@@ -1014,8 +1110,9 @@ namespace SistemaDePedidos_CompañiaNativa
                     }
                     else
                         MessageBox.Show("Error!! El pedido que intenta RESERVAR no tiene el estado para realizar esta acción", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Cursor.Current = Cursors.Default;
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -1031,62 +1128,39 @@ namespace SistemaDePedidos_CompañiaNativa
                 DialogResult result = MessageBox.Show($"¿Esta seguro ELIMINAR LA RESERVA del pedido?", "Atención!!", MessageBoxButtons.YesNo);
                 if (result == DialogResult.Yes)
                 {
+                    Cursor.Current = Cursors.WaitCursor;
                     if (txtEstadoPedido.Text != "Anulado")
                     {
                         Pedido oPedido1 = LinkearControles(false);
                         List<PedidosTablaPropia> PedidosReferencia = oNegociosPedido.TraerPedidosDeReferencia(txtPedido.Text);
-                        bool Guardo = false;
-                        //string segundaPartePedido = oNegociosPedido.TraerDato(false, "GVA21", "LEYENDA_5", true, "NRO_PEDIDO", true, txtPedido.Text + "' AND TALON_PED='" + ConfigurationManager.AppSettings.Get("Talonario"));
                         if (PedidosReferencia.Count <= 3)
                         {
-                            using (TransactionScope scope = new TransactionScope())
+                            List<Pedido> lPedidos = new List<Pedido>();
+                            lPedidos.Add(oPedido1);
+                            foreach (var item in PedidosReferencia)
                             {
-                                if (oNegociosPedido.EliminarReserva(txtPedido.Text, oPedido1.TalonarioPedido.ToString()))
+                                if (item.PrimerPedido != oPedido1.Numero && item.PrimerPedido != "")
                                 {
-                                    oNegociosPedido.SumarStockSta19(oPedido1);
-                                    Guardo = true;
-                                    foreach (var item in PedidosReferencia)
-                                    {
-                                        string pedido1 = item.PrimerPedido;
-                                        string pedido2 = item.SegundoPedido;
-                                        string pedido3 = item.TercerPedido;
-                                        if (pedido1 != oPedido1.Numero && pedido1 != "")
-                                        {
-                                            Pedido oPedidoContinuacion1 = ReservarContinuacionPedido(pedido1);
-                                            if (oNegociosPedido.EliminarReserva(oPedidoContinuacion1.Numero, oPedidoContinuacion1.TalonarioPedido.ToString()))
-                                            {
-                                                oNegociosPedido.SumarStockSta19(oPedidoContinuacion1);
-                                                Guardo = true;
-                                            }
-                                        }
-                                        if(pedido2 != oPedido1.Numero && pedido2 != "")
-                                        {
-                                            Pedido oPedidoContinuacion2 = ReservarContinuacionPedido(pedido2);
-                                            if (oNegociosPedido.EliminarReserva(oPedidoContinuacion2.Numero, oPedidoContinuacion2.TalonarioPedido.ToString()))
-                                            {
-                                                oNegociosPedido.SumarStockSta19(oPedidoContinuacion2);
-                                                Guardo = true;
-                                            }
-                                        }
-                                        if(pedido3 != oPedido1.Numero && pedido3 != "")
-                                        {
-                                            Pedido oPedidoContinuacion3 = ReservarContinuacionPedido(pedido3);
-                                            if (oNegociosPedido.EliminarReserva(oPedidoContinuacion3.Numero, oPedidoContinuacion3.TalonarioPedido.ToString()))
-                                            {
-                                                oNegociosPedido.SumarStockSta19(oPedidoContinuacion3);
-                                                Guardo = true;
-                                            }
-                                        }
-                                    }
+                                    Pedido oPedidoContinuacion1 = ReservarContinuacionPedido(item.PrimerPedido);
+                                    lPedidos.Add(oPedidoContinuacion1);
                                 }
-                                scope.Complete();
+                                if (item.SegundoPedido != oPedido1.Numero && item.SegundoPedido != "")
+                                {
+                                    Pedido oPedidoContinuacion2 = ReservarContinuacionPedido(item.SegundoPedido);
+                                    lPedidos.Add(oPedidoContinuacion2);
+                                }
+                                if (item.TercerPedido != oPedido1.Numero && item.TercerPedido != "")
+                                {
+                                    Pedido oPedidoContinuacion3 = ReservarContinuacionPedido(item.TercerPedido);
+                                    lPedidos.Add(oPedidoContinuacion3);
+                                }
                             }
-                            if (Guardo)
+
+                            if (oNegociosPedido.EliminarReserva(lPedidos))
                             {
                                 if (oNegociosPedido.Conectar(Conexion, Conexion2))
                                 {
                                     CargarControles();
-                                    //oNegociosPedido.EditarEstadoPedidoActual(ConfigurationManager.AppSettings.Get("EstadoPedido"));
                                     MessageBox.Show("La reserva del pedido fue ELIMANADA CORRECTAMENTE!!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
                                 }
                             }
@@ -1098,6 +1172,7 @@ namespace SistemaDePedidos_CompañiaNativa
                     }
                     else
                         MessageBox.Show("Error!! El pedido no tiene el estado para realizar esta acción", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    Cursor.Current = Cursors.Default;
                 }
 
             }
@@ -1127,198 +1202,223 @@ namespace SistemaDePedidos_CompañiaNativa
             }
         }
 
-       
+
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            Pedido oPedidoNuevo;
-            FormSeña formularioSeña;
-            FormLeyendas oFormLeyenda;
-            dgv_Principal.EndEdit();
-            try
+            if (Convert.ToDecimal(txtTotal.Text) > 0)
             {
-                if (bModificarPedido)
+                string mensaje;
+                mensaje = Convert.ToString(MessageBox.Show("¿Esta seguro que desea guardar el pedido?", this.Text, MessageBoxButtons.YesNo, MessageBoxIcon.Exclamation));
+                if (mensaje == "Yes")
                 {
-                    oPedidoNuevo = LinkearControles(false);
-                }
-                else
-                {
-                    oPedidoNuevo = LinkearControles(true);
-                }
-
-                if (txtEmailClienteOcasional.Text != "" && txtDireccionClienteOcasional.Text != "" && TxtTelefonoClienteOcasional.Text != "" && txtNombreClienteOcasional.Text != ""
-                || Pedido.PedidoClienteOcasional == false)
-                {
-                    if (ValidarFormatoEmail(txtEmailClienteOcasional.Text) || Pedido.PedidoClienteOcasional == false)
+                    Pedido oPedidoNuevo;
+                    FormLeyendas oFormLeyenda;
+                    dgv_Principal.EndEdit();
+                    try
                     {
-                        if (oPedidoNuevo.IdDirEntrega != 0 || Pedido.PedidoClienteOcasional || txtCliente.Text == "000000")
+                        if (bModificarPedido)
                         {
-                            if (oNegociosPedido.ValidarCliente(txtCliente.Text))
-                            {
-                                if (oNegociosPedido.ValidarCondicionVta(txtCondicionVenta.Text))
-                                {
-                                    //if (oNegociosPedido.ValidarDeposito())
-                                    //{
-                                    if (oNegociosPedido.ValidarTalonario(txtTalonario.Text) || txtTalonario.Text == "0")
-                                    {
-                                        if (oNegociosPedido.ValidarTransporte(txtTransporte.Text))
-                                        {
-                                            if (oNegociosPedido.ValidarVendedor(txtVendedor.Text))
-                                            {
-                                                if (oPedidoNuevo.Detalle.Count > 0)
-                                                {
-                                                    if (oNegociosPedido.ValidarArticulosGrilla(oPedidoNuevo.Detalle))
-                                                    {
-                                                        if (oNegociosPedido.ValidarArticulosRepetidosGrilla(oPedidoNuevo.Detalle))
-                                                        {
-                                                            if (oNegociosPedido.ValidarLongitudDescripciones(oPedidoNuevo.Detalle))
-                                                            {
-                                                                if (oNegociosPedido.ValidarPreciosGrilla(oPedidoNuevo.Detalle))
-                                                                {
-                                                                    bCancelo = true;
-                                                                    oFormLeyenda = new FormLeyendas();
-                                                                    formularioSeña = new FormSeña();
-                                                                    formularioSeña.TotalPedido = txtTotal.Text;
-                                                                    if (bModificarPedido)
-                                                                    {
-                                                                        oFormLeyenda.Pedido = oPedidoNuevo.Numero;
-                                                                        oFormLeyenda.Talonario = iTalonario;
-                                                                        formularioSeña.Pedido = oPedidoNuevo.Numero;
-                                                                        formularioSeña.Talonario = iTalonario;
-                                                                    }
-                                                                    if (formularioSeña.Mostrar(oPedidoNuevo, oNegociosPedido))
-                                                                    {
-                                                                        if (oFormLeyenda.Mostrar(oPedidoNuevo, oNegociosPedido))
-                                                                        {
-                                                                            if (bNuevo)
-                                                                            {
-                                                                                if (txt_empresa.Text == ConfigurationManager.AppSettings.Get("Empresa1"))
-                                                                                {
-                                                                                    try
-                                                                                    {
-                                                                                        if (oNegociosPedido.AgregarPedidoBase1(oPedidoNuevo))
-                                                                                        {
-                                                                                            MessageBox.Show("El pedido fue grabado con exito.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                                                                        }
-                                                                                        else
-                                                                                        {
-                                                                                            MessageBox.Show("No se pudo agregar el pedido, compruebe los datos y vuelva a intentarlo.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-
-                                                                                        }
-                                                                                    }
-                                                                                    catch (Exception ex)
-                                                                                    {
-                                                                                        LogDeErrores(ex, "AgregarPedidoBase1");
-                                                                                        throw;
-                                                                                    }
-                                                                                }
-                                                                                else
-                                                                                {
-                                                                                    try
-                                                                                    {
-                                                                                        if (oNegociosPedido.AgregarPedidoBase2(oPedidoNuevo))
-                                                                                        {
-                                                                                            MessageBox.Show("El pedido fue grabado con exito.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                                                                        }
-                                                                                        else
-                                                                                        {
-                                                                                            MessageBox.Show("No se pudo agregar el pedido, compruebe los datos y vuelva a intentarlo.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                                                                        }
-                                                                                    }
-                                                                                    catch (Exception ex)
-                                                                                    {
-                                                                                        LogDeErrores(ex, "AgregarPedidoBase2");
-                                                                                        throw;
-                                                                                    }
-                                                                                }
-                                                                                lblEmpresa.Visible = false;
-                                                                                txt_empresa.Visible = false;
-                                                                                Pedido.PedidoClienteOcasional = false;
-                                                                                Pedido.PedidoClienteRegistradoEnTango = false;
-                                                                                if (oNegociosPedido.Conectar(Conexion, Conexion2))
-                                                                                {
-                                                                                    LimpiarControles();
-                                                                                    HabilitarControles(false);
-                                                                                    bNuevo = false;
-                                                                                    bCancelo = true;
-                                                                                    CargarControles();
-                                                                                }
-                                                                            }
-                                                                            else if (bModificarPedido)
-                                                                            {
-                                                                                if (oNegociosPedido.ModificarPedido(oPedidoNuevo))
-                                                                                {
-                                                                                    LimpiarControles();
-                                                                                    HabilitarControles(false);
-                                                                                    bModificarPedido = false;
-                                                                                    bCancelo = true;
-                                                                                    CargarControles();
-
-                                                                                    MessageBox.Show("El pedido fue modificado correctamente!!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
-                                                                                }
-                                                                                else
-                                                                                    MessageBox.Show("No se pudo modificar el pedido, compruebe los datos y vuelva a intentarlo.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
-                                                                            }
-                                                                        }
-                                                                    }
-                                                                }
-                                                                else
-                                                                    MessageBox.Show("El precio de venta de los artículos debe ser mayor a 0", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                                                            }
-                                                            else
-                                                                MessageBox.Show("Hay descripciones en los renglones que pasan el máximo permitido de 50 caracteres en la descripción.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                                                        }
-                                                        else
-                                                            MessageBox.Show("Hay artículos con un mismo deposito repetidos en la grilla, verifique o cambie de deposito.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                                                    }
-                                                    else
-                                                        MessageBox.Show("Hay artículos en la grilla incorrectos.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                                                }
-                                                else
-                                                    MessageBox.Show("Debe ingresar un artículo en la grilla.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                                            }
-                                            else
-                                                MessageBox.Show("El vendedor es incorrecto.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                                        }
-                                        else
-                                            MessageBox.Show("El transporte es incorrecto.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                                    }
-                                    else
-                                        MessageBox.Show("El talonario es incorrecto.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                                    //}
-                                    //else
-                                    //    MessageBox.Show("El depósito no existe.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                                }
-                                else
-                                    MessageBox.Show("La condición de venta es incorrecta.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                            }
-                            else
-                                MessageBox.Show("El cliente es incorrecto.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            oPedidoNuevo = LinkearControles(false);
                         }
                         else
                         {
-                            MessageBox.Show("Seleccione una dirección de entrega para continuar.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                            cmbDirEntrega.Focus();
+                            oPedidoNuevo = LinkearControles(true);
+                        }
+
+                        double seña = Convert.ToDouble(txtImporteSeña.Text);
+                        if (txtTotalGeneralSumado.Text == "")
+                        {
+                            txtTotalGeneralSumado.Text = "0";
+                        }
+                        double total = Convert.ToDouble(txtTotalGeneralSumado.Text);
+                        if (seña <= total || seña <= Convert.ToDouble(txtTotal.Text))
+                        {
+                            if (txtEmailClienteOcasional.Text != "" && txtDireccionClienteOcasional.Text != "" && TxtTelefonoClienteOcasional.Text != "" && txtNombreClienteOcasional.Text != ""
+                            || Pedido.PedidoClienteOcasional == false)
+                            {
+                                if (ValidarFormatoEmail(txtEmailClienteOcasional.Text) || Pedido.PedidoClienteOcasional == false)
+                                {
+                                    if (oPedidoNuevo.IdDirEntrega != 0 || Pedido.PedidoClienteOcasional || txtCliente.Text == "000000")
+                                    {
+                                        if (oNegociosPedido.ValidarCliente(txtCliente.Text))
+                                        {
+                                            if (oNegociosPedido.ValidarCondicionVta(txtCondicionVenta.Text))
+                                            {
+                                                //if (oNegociosPedido.ValidarDeposito())
+                                                //{
+                                                if (oNegociosPedido.ValidarTalonario(txtTalonario.Text) || txtTalonario.Text == "0")
+                                                {
+                                                    if (oNegociosPedido.ValidarTransporte(txtTransporte.Text))
+                                                    {
+                                                        if (oNegociosPedido.ValidarVendedor(txtVendedor.Text))
+                                                        {
+                                                            if (oPedidoNuevo.Detalle.Count > 0)
+                                                            {
+                                                                if (oNegociosPedido.ValidarArticulosGrilla(oPedidoNuevo.Detalle))
+                                                                {
+                                                                    if (oNegociosPedido.ValidarArticulosRepetidosGrilla(oPedidoNuevo.Detalle))
+                                                                    {
+                                                                        if (oNegociosPedido.ValidarLongitudDescripciones(oPedidoNuevo.Detalle))
+                                                                        {
+                                                                            if (oNegociosPedido.ValidarPreciosGrilla(oPedidoNuevo.Detalle))
+                                                                            {
+                                                                                bCancelo = true;
+                                                                                oFormLeyenda = new FormLeyendas();
+                                                                                if (bNuevo)
+                                                                                {
+                                                                                    if (oFormLeyenda.Mostrar(oPedidoNuevo, oNegociosPedido))
+                                                                                    {
+                                                                                        Cursor.Current = Cursors.WaitCursor;
+                                                                                        if (txt_empresa.Text == ConfigurationManager.AppSettings.Get("Empresa1"))
+                                                                                        {
+                                                                                            try
+                                                                                            {
+                                                                                                if (oNegociosPedido.AgregarPedidoBase1(oPedidoNuevo))
+                                                                                                {
+                                                                                                    lblEmpresa.Visible = false;
+                                                                                                    txt_empresa.Visible = false;
+                                                                                                    Pedido.PedidoClienteOcasional = false;
+                                                                                                    Pedido.PedidoClienteRegistradoEnTango = false;
+                                                                                                    if (oNegociosPedido.Conectar(Conexion, Conexion2))
+                                                                                                    {
+                                                                                                        LimpiarControles();
+                                                                                                        HabilitarControles(false);
+                                                                                                        bNuevo = false;
+                                                                                                        bCancelo = true;
+                                                                                                        CargarControles();
+                                                                                                    }
+                                                                                                    MessageBox.Show("El pedido fue grabado con exito.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    MessageBox.Show("No se pudo agregar el pedido, compruebe los datos y vuelva a intentarlo.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                                                                                                }
+                                                                                            }
+                                                                                            catch (Exception ex)
+                                                                                            {
+                                                                                                LogDeErrores(ex, "AgregarPedidoBase1");
+                                                                                                throw;
+                                                                                            }
+                                                                                        }
+                                                                                        else
+                                                                                        {
+                                                                                            try
+                                                                                            {
+                                                                                                if (oNegociosPedido.AgregarPedidoBase2(oPedidoNuevo))
+                                                                                                {
+                                                                                                    lblEmpresa.Visible = false;
+                                                                                                    txt_empresa.Visible = false;
+                                                                                                    Pedido.PedidoClienteOcasional = false;
+                                                                                                    Pedido.PedidoClienteRegistradoEnTango = false;
+                                                                                                    if (oNegociosPedido.Conectar(Conexion, Conexion2))
+                                                                                                    {
+                                                                                                        LimpiarControles();
+                                                                                                        HabilitarControles(false);
+                                                                                                        bNuevo = false;
+                                                                                                        bCancelo = true;
+                                                                                                        CargarControles();
+                                                                                                    }
+                                                                                                    MessageBox.Show("El pedido fue grabado con exito.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                                                                }
+                                                                                                else
+                                                                                                {
+                                                                                                    MessageBox.Show("No se pudo agregar el pedido, compruebe los datos y vuelva a intentarlo.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                                                                }
+                                                                                            }
+                                                                                            catch (Exception ex)
+                                                                                            {
+                                                                                                LogDeErrores(ex, "AgregarPedidoBase2");
+                                                                                                throw;
+                                                                                            }
+                                                                                        }
+                                                                                        Cursor.Current = Cursors.Default;
+                                                                                    }
+                                                                                }
+                                                                                else if (bModificarPedido)
+                                                                                {
+                                                                                    Cursor.Current = Cursors.WaitCursor;
+                                                                                    if (oNegociosPedido.ModificarPedido(oPedidoNuevo))
+                                                                                    {
+                                                                                        if (oNegociosPedido.Conectar(Conexion, Conexion2))
+                                                                                        {
+                                                                                            LimpiarControles();
+                                                                                            HabilitarControles(false);
+                                                                                            bModificarPedido = false;
+                                                                                            bCancelo = true;
+                                                                                            CargarControles();
+                                                                                        }
+                                                                                        MessageBox.Show("El pedido fue modificado correctamente!!", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Information);
+                                                                                    }
+                                                                                    else
+                                                                                        MessageBox.Show("No se pudo modificar el pedido, compruebe los datos y vuelva a intentarlo.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
+                                                                                    Cursor.Current = Cursors.Default;
+                                                                                }
+                                                                            }
+                                                                            else
+                                                                                MessageBox.Show("El precio de venta de los artículos debe ser mayor a 0", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                                                        }
+                                                                        else
+                                                                            MessageBox.Show("Hay descripciones en los renglones que pasan el máximo permitido de 50 caracteres en la descripción.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                                                    }
+                                                                    else
+                                                                        MessageBox.Show("Hay artículos con un mismo deposito repetidos en la grilla, verifique o cambie de deposito.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                                                }
+                                                                else
+                                                                    MessageBox.Show("Hay artículos en la grilla incorrectos.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                                            }
+                                                            else
+                                                                MessageBox.Show("Debe ingresar un artículo en la grilla.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                                        }
+                                                        else
+                                                            MessageBox.Show("El vendedor es incorrecto.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                                    }
+                                                    else
+                                                        MessageBox.Show("El transporte es incorrecto.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                                }
+                                                else
+                                                    MessageBox.Show("El talonario es incorrecto.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                            }
+                                            else
+                                                MessageBox.Show("La condición de venta es incorrecta.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                        }
+                                        else
+                                            MessageBox.Show("El cliente es incorrecto.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                    }
+                                    else
+                                    {
+                                        MessageBox.Show("Seleccione una dirección de entrega para continuar.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                        cmbDirEntrega.Focus();
+                                    }
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Los caracteres del E-MAIL, son incorrectos.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                                    txtEmailClienteOcasional.Focus();
+                                }
+                            }
+                            else
+                            {
+                                MessageBox.Show("Por favor completar los campos que estan vacios para continuar.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            }
+                        }
+                        else
+                        {
+                            MessageBox.Show("Error!! El importe de seña ingresado supera el monto total del pedido.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+                            txtImporteSeña.Select();
                         }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        MessageBox.Show("Los caracteres del E-MAIL, son incorrectos.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        txtEmailClienteOcasional.Focus();
+
+                        throw ex;
                     }
-
                 }
-                else
-                {
-                    MessageBox.Show("Por favor completar los campos que estan vacios para continuar.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                }
-
             }
-            catch (Exception ex)
+            else
             {
-
-                throw ex;
+                MessageBox.Show("El importe total del pedido es inválido.", this.Text, MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-
         }
 
         private void btnCancelar_Click(object sender, EventArgs e)
@@ -1348,6 +1448,21 @@ namespace SistemaDePedidos_CompañiaNativa
 
         private void btnPedidoNuevoClienteOcasional_Click(object sender, EventArgs e)
         {
+            #region
+            lblTotalGeneralSumado.Visible = false;
+            txtTotalGeneralSumado.Visible = false;
+            lblprimerPed.Visible = false;
+            lblSegundoPed.Visible = false;
+            lblTercerPed.Visible = false;
+            lblPedido1.Visible = false;
+            lblPedido2.Visible = false;
+            lblPedido3.Visible = false;
+            txtLeyenda1.Visible = false;
+            txtLeyenda2.Visible = false;
+            txtLeyenda3.Visible = false;
+            txtLeyenda4.Visible = false;
+            txt_Leyenda5.Visible = false;
+            txtImporteSeña.ReadOnly = false;
             lblAltaClienteNuevo.Visible = false;
             txtTransporte.Visible = false;
             txtBonif.Visible = false;
@@ -1360,11 +1475,13 @@ namespace SistemaDePedidos_CompañiaNativa
             TxtTelefonoClienteOcasional.Visible = true;
             txtDireccionClienteOcasional.Visible = true;
             txtDireccionClienteOcasional.ReadOnly = false;
+            #endregion
+
             //----------------------------------------------------------------------------
             listaDeStock = new List<decimal>();
             btnSacarReserva.Visible = false;
             btn_reservar.Visible = true;
-            lbl_reservado.Visible = false;
+            txt_Leyenda5.Visible = false;
             //FormSeleccionPrecio frm = new FormSeleccionPrecio();
             //frm.ShowDialog();
             FormSeleccionarEmpresa formEmpresa = new FormSeleccionarEmpresa();
@@ -1379,20 +1496,16 @@ namespace SistemaDePedidos_CompañiaNativa
             HabilitarControles(true);
             LimpiarControles();
             dtpFecha.Value = DateTime.Now;
-            dtpFechaEntrega.Value = TraerProximoDiaHabil96hs();
+            dtpFechaEntrega.Value = new DateTime(1800, 1, 1);
+            //dtpFechaEntrega.Value = TraerProximoDiaHabil96hs();
             txt_empresa.Text = Pedido.Empresa;
             txtPedido.Text = oNegociosPedido.TraerUltimoNumeroPedido(iTalonario.ToString());
             bModificarPedido = false;
             bCancelo = false;
-            //txtTalonario.Text = iTalonario.ToString();
-            //lblTalonario.Text = oNegociosPedido.TraerDato(false, "GVA43", "descrip as Descripcion", true, "Talonario", true, txtTalonario.Text.Trim());
-            //txtDeposito.Text = ConfigurationManager.AppSettings.Get("CODIGO_DEPOSITO");
-            //lblDeposito.Text = oNegociosPedido.TraerDato(false, "sta22", "nombre_suc", true, "cod_sucurs", true, txtDeposito.Text.Trim());
             txtCliente.Text = "000000";
             txtEstadoPedido.Text = "Cargando";
             txtBonif.Text = "0";
             lblCotizacion.Text = "1";
-            //lblCotizacion.Text = oNegociosPedido.traerDato(false, ConfigurationManager.AppSettings.Get("BasePrecios") + "..cotizacionPedido", "valor", false, "1", false, "1");
 
             bNuevo = true;
             dgv_Principal.ReadOnly = false;
@@ -1406,7 +1519,21 @@ namespace SistemaDePedidos_CompañiaNativa
 
         private void btnPedidoNuevoClienteRegistrado_Click(object sender, EventArgs e)
         {
-            txtCliente.ReadOnly = true;
+            #region OCULTAR Y MOSTRAR CONTROLES
+            lblTotalGeneralSumado.Visible = false;
+            txtTotalGeneralSumado.Visible = false;
+            lblprimerPed.Visible = false;
+            lblSegundoPed.Visible = false;
+            lblTercerPed.Visible = false;
+            lblPedido1.Visible = false;
+            lblPedido2.Visible = false;
+            lblPedido3.Visible = false;
+            txtLeyenda1.Visible = false;
+            txtLeyenda2.Visible = false;
+            txtLeyenda3.Visible = false;
+            txtLeyenda4.Visible = false;
+            txt_Leyenda5.Visible = false;
+            txtImporteSeña.ReadOnly = false;
             txtTransporte.Visible = true;
             txtBonif.Visible = true;
             LabelTransporte.Visible = true;
@@ -1417,13 +1544,13 @@ namespace SistemaDePedidos_CompañiaNativa
             lblTelefonoClienteOcasional.Visible = false;
             TxtTelefonoClienteOcasional.Visible = false;
             txtDireccionClienteOcasional.Visible = false;
+            #endregion
+
             //----------------------------------------------------------------------------
             listaDeStock = new List<decimal>();
             btnSacarReserva.Visible = false;
             btn_reservar.Visible = true;
-            lbl_reservado.Visible = false;
-            //FormSeleccionPrecio frm = new FormSeleccionPrecio();
-            //frm.ShowDialog();
+            txt_Leyenda5.Visible = false;
             FormSeleccionarEmpresa formEmpresa = new FormSeleccionarEmpresa();
             formEmpresa.ShowDialog();
 
@@ -1436,16 +1563,13 @@ namespace SistemaDePedidos_CompañiaNativa
             HabilitarControles(true);
             LimpiarControles();
             dtpFecha.Value = DateTime.Now;
-            dtpFechaEntrega.Value = TraerProximoDiaHabil96hs();
+            dtpFechaEntrega.Value = new DateTime(1800,1,1);
+            //dtpFechaEntrega.Value = TraerProximoDiaHabil96hs();
             txt_empresa.Text = Pedido.Empresa;
             txtPedido.Text = oNegociosPedido.TraerUltimoNumeroPedido(iTalonario.ToString());
             bModificarPedido = false;
             bCancelo = false;
             txtCliente.Focus();
-            //txtTalonario.Text = iTalonario.ToString();
-            //lblTalonario.Text = oNegociosPedido.TraerDato(false, "GVA43", "descrip as Descripcion", true, "Talonario", true, txtTalonario.Text.Trim());
-            //txtDeposito.Text = ConfigurationManager.AppSettings.Get("CODIGO_DEPOSITO");
-            //lblDeposito.Text = oNegociosPedido.TraerDato(false, "sta22", "nombre_suc", true, "cod_sucurs", true, txtDeposito.Text.Trim());
             txtEstadoPedido.Text = "Cargando";
             txtBonif.Text = "0";
             lblCotizacion.Text = "1";
@@ -1462,6 +1586,64 @@ namespace SistemaDePedidos_CompañiaNativa
 
 
         #region -------------------------- CONTROLES GENERALES (TXT, DATE_TIME, GRILLA)-------------------------------------------
+
+        private void txtLeyenda1_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                txtLeyenda2.Focus();
+        }
+
+        private void txtImporteSeña_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                if (txtImporteSeña.Text == "")
+                    txtImporteSeña.Text = "0";
+        }
+
+        private void txtLeyenda3_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                txtLeyenda3.Focus();
+        }
+
+        private void txtLeyenda4_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+                txtImporteSeña.Focus();
+        }
+
+        private void txtImporteSeña_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            if (char.IsDigit(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            // condicion que no permite dar salto de linea
+            else if (e.KeyChar == Convert.ToChar(Keys.Enter))
+            {
+                e.Handled = true;
+            }
+            // condicion que no permite utilizar letras en el campo
+            else if (char.IsLetter(e.KeyChar))
+            {
+                e.Handled = false;
+
+            }
+            // condicion que no permite utilizar la tecla de borrado
+            else if (char.IsControl(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            // condicion que nos permite utilizar los espacios
+            else if (char.IsSeparator(e.KeyChar))
+            {
+                e.Handled = false;
+            }
+            else
+            {
+                e.Handled = true;
+            }
+        }
 
         private void txtCliente_KeyPress(object sender, KeyPressEventArgs e)
         {
@@ -1911,27 +2093,11 @@ namespace SistemaDePedidos_CompañiaNativa
             {
                 if (e.KeyCode == Keys.Enter)
                 {
-                    //e.Handled = true;
-                    //SelectNextControl((Control)sender, true, true, true, true);
-                    //if ((dgv_Principal.Rows.Count == 0))
-                    //{
-                    //    dgv_Principal.Rows.Add();
-                    //    dgv_Principal.CurrentCell = dgv_Principal.Rows[0].Cells["ColCodigo"];
-                    //    dgv_Principal.BeginEdit(true);
-                    //    precargado = false;
-                    //}
-                    //else
-                    //{
-                    //    //dgv_Principal.CurrentCell = dgv_Principal.Rows[dgv_Principal.Rows.Count - 1].Cells["ColCodigo"];
-                    //    //dgv_Principal.BeginEdit(true);
-                    //    //dgv_Principal.CurrentCell.Selected = true;
-
-                    //}
                     cmbDirEntrega.Focus();
+                    e.Handled = true;
                 }
                 else if (e.KeyCode == Keys.Escape)
                     txtBonif.Focus();
-                cmbDirEntrega.Focus();
             }
             catch (Exception ex)
             {
@@ -2079,8 +2245,8 @@ namespace SistemaDePedidos_CompañiaNativa
                                     dgv_Principal.Rows[e.RowIndex].Cells["ColDeposito"].Value = "";
                                     cBuscador oBuscador = new cBuscador();
 
-                                    if (oNegociosPedido.ComprobarDato("sta22", "cod_sucurs", true, ConfigurationManager.AppSettings.Get("CODIGO_DEPOSITO").ToString()) == false)
-                                    {
+                                    //if (oNegociosPedido.ComprobarDato("sta22", "cod_sucurs", true, ConfigurationManager.AppSettings.Get("CODIGO_DEPOSITO").ToString()) == false)
+                                    //{
                                         oBuscador.AgregarColumnaFill(1);
                                         oBuscador.Filtrado = cBuscador.MiFiltrado.Inicio;
                                         oBuscador.Mostrar(Conexion, "SELECT COD_SUCURS as Codigo, NOMBRE_SUC as Nombre, FORMAT(ISNULL(STA19.CANT_STOCK,0),'0.00') AS [Stock Disp] FROM STA22 LEFT JOIN STA19 " +
@@ -2090,7 +2256,7 @@ namespace SistemaDePedidos_CompañiaNativa
                                             dgv_Principal.Rows[e.RowIndex].Cells["ColDeposito"].Value = oBuscador.devolverDato("Codigo");
                                             listaDeStock.Add(Convert.ToDecimal(oBuscador.devolverDato("Stock Disp")));
                                         }
-                                    }
+                                    //}
                                 }
                             }
                             else
@@ -2374,6 +2540,11 @@ namespace SistemaDePedidos_CompañiaNativa
                         txtTalonario.Text = "0";
                         txtVendedor.Focus();
                         precargado = false;
+                        lblAltaClienteNuevo.Visible = true;
+                    }
+                    else
+                    {
+                        lblAltaClienteNuevo.Visible = true;
                     }
 
                 }
@@ -2403,9 +2574,8 @@ namespace SistemaDePedidos_CompañiaNativa
             }
         }
 
+
         #endregion
-
-
 
 
     }

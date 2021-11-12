@@ -36,6 +36,7 @@ namespace SistemaDePedidos_CompañiaNativa
 
         private void FormAltaClienteNuevoGva14_Load(object sender, EventArgs e)
         {
+            txtCodProvincia.ReadOnly = true;
             btn_GuardarRegistro.Enabled = false;
             txtProvinciaCliente.ReadOnly = true;
             string codigoCliente = "C" + oNegocioPedido.TraerDato(false, "GVA14", "ISNULL(MAX(SUBSTRING(COD_CLIENT,2,5)),0) + 1", false, "ISNUMERIC(SUBSTRING(COD_CLIENT,2,5)) = 1 AND SUBSTRING(COD_CLIENT,1,1)", true, "C").PadLeft(5, char.Parse("0"));
@@ -168,7 +169,7 @@ namespace SistemaDePedidos_CompañiaNativa
             btn_GuardarRegistro.Enabled = true;
             if (e.KeyCode == Keys.Enter)
             {
-                txtLocalidadCliente.Focus();
+                btn_GuardarRegistro.Select();
             }
             e.Handled = true;
         }
@@ -178,7 +179,7 @@ namespace SistemaDePedidos_CompañiaNativa
             btn_GuardarRegistro.Enabled = true;
             if (e.KeyCode == Keys.Enter)
             {
-                txtCodProvincia.Focus();
+                txtLocalidadCliente.Focus();
             }
             e.Handled = true;
         }
@@ -188,7 +189,7 @@ namespace SistemaDePedidos_CompañiaNativa
             btn_GuardarRegistro.Enabled = true;
             if (e.KeyCode == Keys.Enter)
             {
-                btn_GuardarRegistro.Focus();
+                txtCodProvincia.Focus();
             }
             e.Handled = true;
         }
@@ -268,21 +269,23 @@ namespace SistemaDePedidos_CompañiaNativa
                 if (e.KeyChar == Strings.ChrW(13))
                 {
                     e.Handled = true;
-
-                    oBuscador.AgregarColumnaFill(1);
-                    oBuscador.Filtrado = cBuscador.MiFiltrado.Inicio;
-                    oBuscador.Mostrar(Conexion, "SELECT COD_PROVIN as Codigo,NOMBRE_PRO as Nombre FROM GVA18");
-                    if (oBuscador.devolverDato("Codigo") != "")
+                    if (oNegocioPedido.ComprobarDato("gva18", "cod_provin", true, txtCodProvincia.Text) == false)
                     {
-                        txtCodProvincia.Text = oBuscador.devolverDato("Codigo");
-                        txtProvinciaCliente.Text = oBuscador.devolverDato("Nombre");
-                        txtLocalidadCliente.Focus();
-                    }
-                    else
-                    {
-                        txtCodProvincia.Text = "";
-                        txtProvinciaCliente.Text = "";
-                        txtLocalidadCliente.Focus();
+                        oBuscador.AgregarColumnaFill(1);
+                        oBuscador.Filtrado = cBuscador.MiFiltrado.Inicio;
+                        oBuscador.Mostrar(Conexion, "SELECT COD_PROVIN as Codigo,NOMBRE_PRO as Nombre FROM GVA18");
+                        if (oBuscador.devolverDato("Codigo") != "")
+                        {
+                            txtCodProvincia.Text = oBuscador.devolverDato("Codigo");
+                            txtProvinciaCliente.Text = oBuscador.devolverDato("Nombre");
+                            txtLocalidadCliente.Focus();
+                        }
+                        else
+                        {
+                            txtCodProvincia.Text = "";
+                            txtProvinciaCliente.Text = "";
+                            txtLocalidadCliente.Focus();
+                        }
                     }
                 }
             }

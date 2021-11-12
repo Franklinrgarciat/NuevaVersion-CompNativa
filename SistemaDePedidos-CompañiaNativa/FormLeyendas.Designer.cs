@@ -38,10 +38,6 @@ namespace SistemaDePedidos_CompañiaNativa
             this.Label2 = new System.Windows.Forms.Label();
             this.txtLeyenda1 = new System.Windows.Forms.TextBox();
             this.Label1 = new System.Windows.Forms.Label();
-            this.txtComentario = new System.Windows.Forms.TextBox();
-            this.lblComentario = new System.Windows.Forms.Label();
-            this.txt_Leyenda5 = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
             this.txtLeyenda4 = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.SuspendLayout();
@@ -49,7 +45,7 @@ namespace SistemaDePedidos_CompañiaNativa
             // cmdCancelar
             // 
             this.cmdCancelar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.cmdCancelar.Location = new System.Drawing.Point(428, 194);
+            this.cmdCancelar.Location = new System.Drawing.Point(428, 164);
             this.cmdCancelar.Name = "cmdCancelar";
             this.cmdCancelar.Size = new System.Drawing.Size(75, 23);
             this.cmdCancelar.TabIndex = 23;
@@ -60,7 +56,7 @@ namespace SistemaDePedidos_CompañiaNativa
             // cmdAceptar
             // 
             this.cmdAceptar.FlatStyle = System.Windows.Forms.FlatStyle.Popup;
-            this.cmdAceptar.Location = new System.Drawing.Point(348, 194);
+            this.cmdAceptar.Location = new System.Drawing.Point(348, 164);
             this.cmdAceptar.Name = "cmdAceptar";
             this.cmdAceptar.Size = new System.Drawing.Size(75, 23);
             this.cmdAceptar.TabIndex = 22;
@@ -71,7 +67,7 @@ namespace SistemaDePedidos_CompañiaNativa
             // txtLeyenda3
             // 
             this.txtLeyenda3.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtLeyenda3.Location = new System.Drawing.Point(104, 110);
+            this.txtLeyenda3.Location = new System.Drawing.Point(104, 91);
             this.txtLeyenda3.MaxLength = 60;
             this.txtLeyenda3.Name = "txtLeyenda3";
             this.txtLeyenda3.Size = new System.Drawing.Size(408, 20);
@@ -82,7 +78,7 @@ namespace SistemaDePedidos_CompañiaNativa
             // 
             this.Label3.AutoSize = true;
             this.Label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label3.Location = new System.Drawing.Point(32, 112);
+            this.Label3.Location = new System.Drawing.Point(32, 93);
             this.Label3.Name = "Label3";
             this.Label3.Size = new System.Drawing.Size(66, 13);
             this.Label3.TabIndex = 16;
@@ -91,7 +87,7 @@ namespace SistemaDePedidos_CompañiaNativa
             // txtLeyenda2
             // 
             this.txtLeyenda2.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtLeyenda2.Location = new System.Drawing.Point(104, 84);
+            this.txtLeyenda2.Location = new System.Drawing.Point(104, 65);
             this.txtLeyenda2.MaxLength = 60;
             this.txtLeyenda2.Name = "txtLeyenda2";
             this.txtLeyenda2.Size = new System.Drawing.Size(408, 20);
@@ -102,7 +98,7 @@ namespace SistemaDePedidos_CompañiaNativa
             // 
             this.Label2.AutoSize = true;
             this.Label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label2.Location = new System.Drawing.Point(32, 86);
+            this.Label2.Location = new System.Drawing.Point(32, 67);
             this.Label2.Name = "Label2";
             this.Label2.Size = new System.Drawing.Size(66, 13);
             this.Label2.TabIndex = 14;
@@ -111,7 +107,7 @@ namespace SistemaDePedidos_CompañiaNativa
             // txtLeyenda1
             // 
             this.txtLeyenda1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtLeyenda1.Location = new System.Drawing.Point(104, 58);
+            this.txtLeyenda1.Location = new System.Drawing.Point(104, 39);
             this.txtLeyenda1.MaxLength = 60;
             this.txtLeyenda1.Name = "txtLeyenda1";
             this.txtLeyenda1.Size = new System.Drawing.Size(408, 20);
@@ -122,57 +118,16 @@ namespace SistemaDePedidos_CompañiaNativa
             // 
             this.Label1.AutoSize = true;
             this.Label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.Label1.Location = new System.Drawing.Point(32, 60);
+            this.Label1.Location = new System.Drawing.Point(32, 41);
             this.Label1.Name = "Label1";
             this.Label1.Size = new System.Drawing.Size(66, 13);
             this.Label1.TabIndex = 12;
             this.Label1.Text = "Leyenda 1";
             // 
-            // txtComentario
-            // 
-            this.txtComentario.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtComentario.Location = new System.Drawing.Point(104, 30);
-            this.txtComentario.MaxLength = 30;
-            this.txtComentario.Name = "txtComentario";
-            this.txtComentario.Size = new System.Drawing.Size(408, 20);
-            this.txtComentario.TabIndex = 25;
-            this.txtComentario.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtComentario_KeyDown);
-            // 
-            // lblComentario
-            // 
-            this.lblComentario.AutoSize = true;
-            this.lblComentario.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblComentario.Location = new System.Drawing.Point(32, 32);
-            this.lblComentario.Name = "lblComentario";
-            this.lblComentario.Size = new System.Drawing.Size(70, 13);
-            this.lblComentario.TabIndex = 24;
-            this.lblComentario.Text = "Comentario";
-            // 
-            // txt_Leyenda5
-            // 
-            this.txt_Leyenda5.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txt_Leyenda5.Location = new System.Drawing.Point(104, 162);
-            this.txt_Leyenda5.MaxLength = 60;
-            this.txt_Leyenda5.Name = "txt_Leyenda5";
-            this.txt_Leyenda5.ReadOnly = true;
-            this.txt_Leyenda5.Size = new System.Drawing.Size(408, 20);
-            this.txt_Leyenda5.TabIndex = 27;
-            this.txt_Leyenda5.Text = "PRESUPUESTADO";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.Location = new System.Drawing.Point(32, 164);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(46, 13);
-            this.label4.TabIndex = 26;
-            this.label4.Text = "Estado";
-            // 
             // txtLeyenda4
             // 
             this.txtLeyenda4.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtLeyenda4.Location = new System.Drawing.Point(104, 136);
+            this.txtLeyenda4.Location = new System.Drawing.Point(104, 117);
             this.txtLeyenda4.MaxLength = 60;
             this.txtLeyenda4.Name = "txtLeyenda4";
             this.txtLeyenda4.Size = new System.Drawing.Size(408, 20);
@@ -183,7 +138,7 @@ namespace SistemaDePedidos_CompañiaNativa
             // 
             this.label5.AutoSize = true;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.Location = new System.Drawing.Point(32, 138);
+            this.label5.Location = new System.Drawing.Point(32, 119);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(66, 13);
             this.label5.TabIndex = 28;
@@ -194,13 +149,9 @@ namespace SistemaDePedidos_CompañiaNativa
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
-            this.ClientSize = new System.Drawing.Size(545, 229);
+            this.ClientSize = new System.Drawing.Size(545, 207);
             this.Controls.Add(this.txtLeyenda4);
             this.Controls.Add(this.label5);
-            this.Controls.Add(this.txt_Leyenda5);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.txtComentario);
-            this.Controls.Add(this.lblComentario);
             this.Controls.Add(this.cmdCancelar);
             this.Controls.Add(this.cmdAceptar);
             this.Controls.Add(this.txtLeyenda3);
@@ -232,10 +183,6 @@ namespace SistemaDePedidos_CompañiaNativa
         internal System.Windows.Forms.Label Label2;
         internal System.Windows.Forms.TextBox txtLeyenda1;
         internal System.Windows.Forms.Label Label1;
-        internal System.Windows.Forms.TextBox txtComentario;
-        internal System.Windows.Forms.Label lblComentario;
-        internal System.Windows.Forms.TextBox txt_Leyenda5;
-        internal System.Windows.Forms.Label label4;
         internal System.Windows.Forms.TextBox txtLeyenda4;
         internal System.Windows.Forms.Label label5;
     }

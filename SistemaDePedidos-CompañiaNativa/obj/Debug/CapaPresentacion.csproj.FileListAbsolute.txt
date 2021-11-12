@@ -136,3 +136,10 @@ C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\NuevaVersion-CompNativa
 C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\NuevaVersion-CompNativa\SistemaDePedidos-CompañiaNativa\obj\Debug\CapaPresentacion.csproj.CopyComplete
 C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\NuevaVersion-CompNativa\SistemaDePedidos-CompañiaNativa\obj\Debug\SistemaDePedidos-CompañiaNativa.exe
 C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\NuevaVersion-CompNativa\SistemaDePedidos-CompañiaNativa\obj\Debug\SistemaDePedidos-CompañiaNativa.pdb
+C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\NuevaVersion-CompNativa\SistemaDePedidos-CompañiaNativa\bin\Debug\Infragistics2.Shared.v12.1.dll
+C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\NuevaVersion-CompNativa\SistemaDePedidos-CompañiaNativa\bin\Debug\Infragistics2.Win.Misc.v12.1.dll
+C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\NuevaVersion-CompNativa\SistemaDePedidos-CompañiaNativa\bin\Debug\Infragistics2.Win.v12.1.dll
+C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\NuevaVersion-CompNativa\SistemaDePedidos-CompañiaNativa\bin\Debug\Infragistics2.Shared.v12.1.xml
+C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\NuevaVersion-CompNativa\SistemaDePedidos-CompañiaNativa\bin\Debug\Infragistics2.Win.Misc.v12.1.xml
+C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\NuevaVersion-CompNativa\SistemaDePedidos-CompañiaNativa\bin\Debug\Infragistics2.Win.v12.1.xml
+C:\Users\mati\Documents\SistemaDePedidos-CompañiaNativa\NuevaVersion-CompNativa\SistemaDePedidos-CompañiaNativa\obj\Debug\SistemaDePedidos-CompañiaNativa.exe.licenses

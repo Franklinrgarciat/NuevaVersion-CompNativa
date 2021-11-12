@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
+using System.Data.SqlClient;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -180,153 +181,233 @@ namespace CapaNegocios
 
         public bool AgregarPedidoBase1(CapaEntidades.Pedido oPedido)
         {
+            bool guardo = false;
+            List<DetallePedido> listaDetallePedido = new List<DetallePedido>();
+            List<string> listaDepositos = oPedido.Detalle.Select(x => x.Deposito).Distinct().ToList();
+            string totalGeneralPedido = oPedido.Total.ToString("N2");
+            string primerPedido = "", segundoPedido = "", tercerPedido = "";
+            var talon = new KeyValuePair<string, int>();
+
+            int pedido = 0;
             try
             {
-                List<DetallePedido> listaDetallePedido = new List<DetallePedido>();
-                List<string> listaDepositos = oPedido.Detalle.Select(x => x.Deposito).Distinct().ToList();
-                string totalGeneralPedido = oPedido.Total.ToString("N2");
-                string primerPedido = "";
-                string segundoPedido = "";
-                string tercerPedido = "";
-
-                int pedido = 0;
-                using (TransactionScope scope = new TransactionScope())
+                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.AppSettings.Get("Conexion")))
                 {
-                    foreach (var deposito in listaDepositos)
+                    cnn.Open();
+                    using (SqlTransaction tra = cnn.BeginTransaction())
                     {
-                        pedido++;
-                        if (listaDepositos.Count >= 2)
+                        try
                         {
-                            switch (pedido)
+                            using (SqlCommand com = new SqlCommand("", cnn, tra))
                             {
-                                case 1:
-                                    primerPedido = oPedido.Numero;
-                                    break;
-                                case 2:
-                                    segundoPedido = oPedido.Numero;
-                                    break;
-                                case 3:
-                                    tercerPedido = oPedido.Numero;
-                                    break;
+                                foreach (var deposito in listaDepositos)
+                                {
+                                    pedido++;
+                                    if (listaDepositos.Count <= 3)
+                                    {
+                                        if (pedido == 3)
+                                        {
+                                            talon = new KeyValuePair<string, int>(talon.Key, talon.Value + 1);
+                                        }
+                                        switch (pedido)
+                                        {
+                                            case 1:
+                                                primerPedido = oPedido.Numero;
+                                                break;
+                                            case 2:
+                                                talon = dbPedido.TraerProximoParaReferenciaDePedido(ConfigurationManager.AppSettings.Get("Talonario"), com);
+                                                segundoPedido = " " + talon.Key + talon.Value.ToString("00000000");
+                                                oPedido.Numero = segundoPedido;
+                                                break;
+                                            case 3:
+                                                tercerPedido = " " + talon.Key + talon.Value.ToString("00000000");
+                                                oPedido.Numero = tercerPedido;
+                                                break;
+                                        }
+                                        listaDetallePedido = oPedido.Detalle.Where(x => x.Deposito == deposito).ToList();
+                                        oPedido.Total = ActualizarTotales(oPedido, listaDetallePedido);
+                                        dbPedido.AgregarABaseEmpresa1(oPedido, listaDetallePedido, com);
+                                    }
+                                    if (Pedido.PedidoClienteOcasional)
+                                    {
+                                        oPedido.ClienteOcasional.N_COMP = oPedido.Numero;
+                                        oPedido.ClienteOcasional.TALONARIO = Convert.ToInt32(ConfigurationManager.AppSettings.Get("Talonario"));
+                                        dbPedido.GuardarClienteOcasional(oPedido.ClienteOcasional, com);
+                                    }
+                                }
+                                if (listaDepositos.Count == 1)
+                                    dbPedido.ActualizarProximoGva43(oPedido.Numero.Substring(6), ConfigurationManager.AppSettings.Get("Talonario"), com);
+                                else
+                                    dbPedido.ActualizarProximoGva43(talon.Value.ToString(), ConfigurationManager.AppSettings.Get("Talonario"), com); //oPedido.Talonario
+
+                                dbPedido.IngresarTablaPropiaDeReferencia(primerPedido, segundoPedido, tercerPedido, oPedido.ImporteSeña, totalGeneralPedido, com);
                             }
-                            listaDetallePedido = oPedido.Detalle.Where(x => x.Deposito == deposito).ToList();
-                            oPedido.Total = ActualizarTotales(oPedido, listaDetallePedido);
-                            dbPedido.AgregarABaseEmpresa1(oPedido, listaDetallePedido);
-                            ActualizarProximoNumeroDePedido(ConfigurationManager.AppSettings.Get("Talonario")); //oPedido.Talonario
-                            if (pedido < 3)
-                            {
-                                oPedido.Numero = dbPedido.TraerProximoNumeroDePedido(ConfigurationManager.AppSettings.Get("Talonario")); //oPedido.Talonario  
-                            }    
+                            tra.Commit();
+                            guardo = true;
                         }
-                        else
+                        catch (Exception)
                         {
-                            //listaDetallePedido = oPedido.Detalle.Where(x => x.Deposito == deposito).ToList();
-                            primerPedido = oPedido.Numero;
-                            //oPedido.Total = ActualizarTotales(oPedido, listaDetallePedido);
-                            dbPedido.AgregarABaseEmpresa1(oPedido, oPedido.Detalle);
-                            ActualizarProximoNumeroDePedido(ConfigurationManager.AppSettings.Get("Talonario")); //oPedido.Talonario
+                            tra.Rollback();
                         }
                     }
-                    if (Pedido.PedidoClienteOcasional)
-                    {
-                        oPedido.ClienteOcasional.N_COMP = oPedido.Numero;
-                        oPedido.ClienteOcasional.TALONARIO = Convert.ToInt32(ConfigurationManager.AppSettings.Get("Talonario"));
-                        dbPedido.GuardarClienteOcasional(true, oPedido.ClienteOcasional);
-                        Pedido.PedidoClienteOcasional = false;
-                    }
-                    dbPedido.IngresarTablaPropiaDeReferencia(true, primerPedido, segundoPedido, tercerPedido, totalGeneralPedido);
-                    scope.Complete();
+                    return guardo;
                 }
-
-                return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-
-                throw ex;
+                return false;
+                throw;
             }
-
         }
 
+        //public bool AgregarPedidoBase1(CapaEntidades.Pedido oPedido)
+        //{
+        //    try
+        //    {
+        //        List<DetallePedido> listaDetallePedido = new List<DetallePedido>();
+        //        List<string> listaDepositos = oPedido.Detalle.Select(x => x.Deposito).Distinct().ToList();
+        //        string totalGeneralPedido = oPedido.Total.ToString("N2");
+        //        string primerPedido = "";
+        //        string segundoPedido = "";
+        //        string tercerPedido = "";
+
+        //        int pedido = 0;
+        //        using (TransactionScope scope = new TransactionScope())
+        //        {
+        //            foreach (var deposito in listaDepositos)
+        //            {
+        //                pedido++;
+        //                if (listaDepositos.Count >= 2)
+        //                {
+        //                    switch (pedido)
+        //                    {
+        //                        case 1:
+        //                            primerPedido = oPedido.Numero;
+        //                            break;
+        //                        case 2:
+        //                            segundoPedido = oPedido.Numero;
+        //                            break;
+        //                        case 3:
+        //                            tercerPedido = oPedido.Numero;
+        //                            break;
+        //                    }
+        //                    listaDetallePedido = oPedido.Detalle.Where(x => x.Deposito == deposito).ToList();
+        //                    oPedido.Total = ActualizarTotales(oPedido, listaDetallePedido);
+        //                    dbPedido.AgregarABaseEmpresa1(oPedido, listaDetallePedido);
+        //                    dbPedido.ActualizarProximoGva43(ConfigurationManager.AppSettings.Get("Talonario")); //oPedido.Talonario
+        //                    if (pedido < 3)
+        //                    {
+        //                        oPedido.Numero = dbPedido.TraerProximoNumeroDePedido(ConfigurationManager.AppSettings.Get("Talonario")); //oPedido.Talonario  
+        //                    }
+        //                }
+        //                else
+        //                {
+        //                    primerPedido = oPedido.Numero;
+        //                    dbPedido.AgregarABaseEmpresa1(oPedido, oPedido.Detalle);
+        //                    dbPedido.ActualizarProximoGva43(ConfigurationManager.AppSettings.Get("Talonario")); //oPedido.Talonario
+        //                }
+        //            }
+        //            if (Pedido.PedidoClienteOcasional)
+        //            {
+        //                oPedido.ClienteOcasional.N_COMP = oPedido.Numero;
+        //                oPedido.ClienteOcasional.TALONARIO = Convert.ToInt32(ConfigurationManager.AppSettings.Get("Talonario"));
+        //                dbPedido.GuardarClienteOcasional(true, oPedido.ClienteOcasional);
+        //                Pedido.PedidoClienteOcasional = false;
+        //            }
+        //            dbPedido.IngresarTablaPropiaDeReferencia(primerPedido, segundoPedido, tercerPedido, totalGeneralPedido);
+        //            scope.Complete();
+        //        }
+        //        return true;
+        //    }
+        //    catch (Exception ex)
+        //    {
+
+        //        throw ex;
+        //    }
+
+        //}
         public bool AgregarPedidoBase2(CapaEntidades.Pedido oPedido)
         {
+            bool guardo = false;
+            List<DetallePedido> listaDetallePedido = new List<DetallePedido>();
+            List<string> listaDepositos = oPedido.Detalle.Select(x => x.Deposito).Distinct().ToList();
+            string totalGeneralPedido = oPedido.Total.ToString("N2");
+            string primerPedido = "", segundoPedido = "", tercerPedido = "";
+            var talon = new KeyValuePair<string, int>();
+            int pedido = 0;
             try
             {
-                List<DetallePedido> listaDetallePedido = new List<DetallePedido>();
-                List<string> listaDepositos = oPedido.Detalle.Select(x => x.Deposito).Distinct().ToList();
-                string totalGeneralPedido = oPedido.Total.ToString("N2");
-                string primerPedido = "";
-                string segundoPedido = "";
-                string tercerPedido = "";
-                int pedido = 0;
-                using (TransactionScope scope = new TransactionScope())
+                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.AppSettings.Get("Conexion")))
                 {
-                    foreach (var deposito in listaDepositos)
+                    cnn.Open();
+                    using (SqlTransaction tra = cnn.BeginTransaction())
                     {
-                        pedido++;
-                        if (listaDepositos.Count >= 2)
+                        try
                         {
-                            switch (pedido)
+                            using (SqlCommand com = new SqlCommand("", cnn, tra))
                             {
-                                case 1:
-                                    primerPedido = oPedido.Numero;
-                                    break;
-                                case 2:
-                                    segundoPedido = oPedido.Numero;
-                                    break;
-                                case 3:
-                                    tercerPedido = oPedido.Numero;
-                                    break;
+                                foreach (var deposito in listaDepositos)
+                                {
+                                    pedido++;
+                                    if (listaDepositos.Count <= 3)
+                                    {
+                                        if (pedido == 3)
+                                        {
+                                            talon = new KeyValuePair<string, int>(talon.Key, talon.Value + 1);
+                                        }
+                                        switch (pedido)
+                                        {
+                                            case 1:
+                                                primerPedido = oPedido.Numero;
+                                                break;
+                                            case 2:
+                                                talon = dbPedido.TraerProximoParaReferenciaDePedido(ConfigurationManager.AppSettings.Get("Talonario"), com);
+                                                segundoPedido = " " + talon.Key + talon.Value.ToString("00000000");
+                                                oPedido.Numero = segundoPedido;
+                                                break;
+                                            case 3:
+                                                tercerPedido = " " + talon.Key + talon.Value.ToString("00000000");
+                                                oPedido.Numero = tercerPedido;
+                                                break;
+                                        }
+                                        listaDetallePedido = oPedido.Detalle.Where(x => x.Deposito == deposito).ToList();
+                                        oPedido.Total = ActualizarTotales(oPedido, listaDetallePedido);
+                                        dbPedido.AgregarABaseEmpresa2(oPedido, listaDetallePedido, com);
+                                        dbPedido.AgregarABaseEmpresa1(oPedido, listaDetallePedido, com);
+                                    }
+                                    if (Pedido.PedidoClienteOcasional)
+                                    {
+                                        oPedido.ClienteOcasional.N_COMP = oPedido.Numero;
+                                        oPedido.ClienteOcasional.TALONARIO = Convert.ToInt32(ConfigurationManager.AppSettings.Get("Talonario"));
+                                        dbPedido.GuardarClienteOcasional(oPedido.ClienteOcasional, com);
+                                        oPedido.ClienteOcasional.TALONARIO = Convert.ToInt32(ConfigurationManager.AppSettings.Get("Talonario2"));
+                                        dbPedido.GuardarClienteOcasionalBase2(oPedido.ClienteOcasional, com);
+                                    }
+                                }
+                                if (listaDepositos.Count == 1)
+                                    dbPedido.ActualizarProximoGva43(oPedido.Numero.Substring(6), ConfigurationManager.AppSettings.Get("Talonario"), com);
+                                else
+                                    dbPedido.ActualizarProximoGva43(talon.Value.ToString(), ConfigurationManager.AppSettings.Get("Talonario"), com);
+                                dbPedido.IngresarTablaPropiaDeReferencia(primerPedido, segundoPedido, tercerPedido, oPedido.ImporteSeña, totalGeneralPedido, com);
                             }
-
-                            listaDetallePedido = oPedido.Detalle.Where(x => x.Deposito == deposito).ToList();
-
-                            oPedido.Total = ActualizarTotales(oPedido, listaDetallePedido);
-                            dbPedido.AgregarABaseEmpresa2(oPedido, listaDetallePedido);
-                            dbPedido.AgregarABaseEmpresa1(oPedido, listaDetallePedido);
-
-                            ActualizarProximoNumeroDePedido(ConfigurationManager.AppSettings.Get("Talonario")); //oPedido.Talonario
-                            if (pedido < 3)
-                            {
-                                oPedido.Numero = dbPedido.TraerProximoNumeroDePedido(ConfigurationManager.AppSettings.Get("Talonario")); //oPedido.Talonario
-                            }
+                            tra.Commit();
+                            guardo = true;
                         }
-                        else
+                        catch (Exception)
                         {
-                            //listaDetallePedido = oPedido.Detalle.Where(x => x.Deposito == deposito).ToList();
-
-                            //oPedido.Total = ActualizarTotales(oPedido, listaDetallePedido);
-                            dbPedido.AgregarABaseEmpresa2(oPedido, oPedido.Detalle);
-                            dbPedido.AgregarABaseEmpresa1(oPedido, oPedido.Detalle);
-                            ActualizarProximoNumeroDePedido(ConfigurationManager.AppSettings.Get("Talonario")); //oPedido.Talonario
-                            //oPedido.Numero = dbPedido.TraerProximoNumeroDePedido(ConfigurationManager.AppSettings.Get("Talonario")); //oPedido.Talonario
+                            tra.Rollback();
                         }
+                        return guardo;
                     }
-                    if (Pedido.PedidoClienteOcasional)
-                    {
-                        oPedido.ClienteOcasional.N_COMP = oPedido.Numero;
-                        oPedido.ClienteOcasional.TALONARIO = Convert.ToInt32(ConfigurationManager.AppSettings.Get("Talonario"));
-                        dbPedido.GuardarClienteOcasional(true, oPedido.ClienteOcasional);
-                        oPedido.ClienteOcasional.TALONARIO = Convert.ToInt32(ConfigurationManager.AppSettings.Get("Talonario2"));
-                        dbPedido.GuardarClienteOcasional(false, oPedido.ClienteOcasional);
-                        Pedido.PedidoClienteOcasional = false;
-                    }
-                    dbPedido.IngresarTablaPropiaDeReferencia(true, primerPedido, segundoPedido, tercerPedido, totalGeneralPedido);
-                    scope.Complete();
                 }
-                return true;
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                throw ex;
+                return false;
+                throw;
             }
-
         }
 
-        public void ActualizarProximoNumeroDePedido(string talonario)
-        {
-            dbPedido.ActualizarProximoGva43(talonario);
-        }
 
         public List<DetallePedido> TraerDetallesSegundoPedido(string numeroPedido)
         {
@@ -376,22 +457,45 @@ namespace CapaNegocios
         public bool ModificarPedido(CapaEntidades.Pedido oPedido)
         {
             bool guardo = false;
-            using (TransactionScope scope = new TransactionScope())
+            try
             {
-                if (oPedido.Talonario == ConfigurationManager.AppSettings.Get("TalonarioPedidoCopia1"))
+                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.AppSettings.Get("Conexion")))
                 {
-                        dbPedido.ModificarBase(true, oPedido);
-                        dbPedido.ModificarBase(false, oPedido);
-                        guardo = true;
-                }
-                else
-                {
-                        dbPedido.ModificarBase(true, oPedido);
-                        guardo = true;
-                }
-                scope.Complete();
-            }
+                    cnn.Open();
+                    using (SqlTransaction tra = cnn.BeginTransaction())
+                    {
+                        try
+                        {
+                            using (SqlCommand com = new SqlCommand("", cnn, tra))
+                            {
+                                if (oPedido.Talonario == ConfigurationManager.AppSettings.Get("TalonarioPedidoCopia1"))
+                                {
+                                    dbPedido.ModificarBase1(com, oPedido);
+                                    dbPedido.ModificarBase2(com, oPedido);
+                                    dbPedido.ActualizarImporteSeñaTablaPropia(com, oPedido.Numero, oPedido.ImporteSeña);
+                                    guardo = true;
+                                }
+                                else
+                                {
+                                    dbPedido.ModificarBase1(com, oPedido);
+                                    dbPedido.ActualizarImporteSeñaTablaPropia(com,oPedido.Numero, oPedido.ImporteSeña);
+                                    guardo = true;
+                                }
+                            }
+                            tra.Commit();
 
+                        }
+                        catch (Exception)
+                        {
+                            tra.Rollback();
+                        }
+                    }
+                }
+            }
+            catch (Exception)
+            {
+                throw;
+            }
             return guardo;
         }
 
@@ -425,84 +529,122 @@ namespace CapaNegocios
             {
                 throw ex;
             }
-
         }
 
 
-        public bool ReservarPedido(Pedido oPedido)
+        public bool ReservarPedido(List<Pedido> lPedidos)
         {
             try
             {
-                using (TransactionScope scope = new TransactionScope())
-                {
-                    string Interno = dbPedido.TraerInterno();
-                    string n_comp = dbPedido.TraerNumeroComprobante(ConfigurationManager.AppSettings.Get("TalonarioTransferencia"));
-                    Interno = Interno.PadLeft(8, '0');
-                    int renglon = 1;
-                    dbPedido.InsertarEncabezadoReservaStock(oPedido, Interno, n_comp);
+                int Interno = dbPedido.TraerInterno();
+                var talon = dbPedido.TraerNumeroComprobante(ConfigurationManager.AppSettings.Get("TalonarioTransferencia"));
 
-                    foreach (var item in oPedido.Detalle)
+                using (SqlConnection cnn = new SqlConnection(ConfigurationManager.AppSettings.Get("Conexion").ToString()))
+                {
+                    cnn.Open();
+                    using (SqlTransaction tra = cnn.BeginTransaction())
                     {
-                        int id_medida_stock = Convert.ToInt32(TraerDato(false, "STA11", "ID_MEDIDA_STOCK", false, "COD_ARTICU", true, item.Codigo));
-                        int id_medida_ventas = Convert.ToInt32(TraerDato(false, "STA11", "ID_MEDIDA_VENTAS", false, "COD_ARTICU", true, item.Codigo));
-                        decimal cantidad = item.Cantidad;
-                        string codigo = item.Codigo;
-                        dbPedido.InsertarDetalleMovimientoReserva(oPedido, Interno, id_medida_stock, id_medida_ventas, cantidad, codigo, renglon);
-                        renglon += 2;
-                        dbPedido.RestarStockSTA19(cantidad, codigo, oPedido.Deposito);
-                    }
-                    dbPedido.ActualizarEstadoDePedidoYLeyenda5(oPedido.Numero, Convert.ToInt32(oPedido.TalonarioPedido), Convert.ToInt32(ConfigurationManager.AppSettings.Get("EstadoPedidoReserva")), true);
+                        try
+                        {
+                            using (SqlCommand com = new SqlCommand("", cnn, tra))
+                            {
+                                string sInterno;
+                                string n_comp;
+                                foreach (Pedido oPedido in lPedidos)
+                                {
+                                    sInterno = Interno.ToString("00000000");
+                                    n_comp = " " + talon.Key + talon.Value.ToString("00000000");
+                                    int renglon = 1;
+                                    dbPedido.InsertarEncabezadoReservaStock(oPedido, sInterno, n_comp, com);
 
-                    dbPedido.InsertarSiguienteSTA17(Convert.ToInt32(ConfigurationManager.AppSettings.Get("TalonarioTransferencia")));
+                                    foreach (var item in oPedido.Detalle)
+                                    {
+                                        int id_medida_stock = Convert.ToInt32(TraerDato(false, "STA11", "ID_MEDIDA_STOCK", false, "COD_ARTICU", true, item.Codigo));
+                                        int id_medida_ventas = Convert.ToInt32(TraerDato(false, "STA11", "ID_MEDIDA_VENTAS", false, "COD_ARTICU", true, item.Codigo));
+                                        decimal cantidad = item.Cantidad;
+                                        string codigo = item.Codigo;
+                                        dbPedido.InsertarDetalleMovimientoReserva(oPedido, sInterno, id_medida_stock, id_medida_ventas, cantidad, codigo, renglon, com);
+                                        renglon += 2;
+                                        dbPedido.RestarStockSTA19(cantidad, codigo, oPedido.Deposito, com);
+                                    }
+                                    dbPedido.INSERTAR_SEIN_RELACION_PEDIDOS_REMITOS_SISTEMA(ConfigurationManager.AppSettings.Get("Talonario"), oPedido.Numero, sInterno, ConfigurationManager.AppSettings.Get("TCOMP_IN_S"), com);
+                                    dbPedido.ActualizarEstadoDePedidoYLeyenda5(oPedido.Numero, Convert.ToInt32(oPedido.TalonarioPedido), Convert.ToInt32(ConfigurationManager.AppSettings.Get("EstadoPedidoReserva")), true, com);
 
-                    scope.Complete();
-                }
+                                    dbPedido.InsertarSiguienteSTA17(Convert.ToInt32(ConfigurationManager.AppSettings.Get("TalonarioTransferencia")), com);
 
-                return true;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public bool EliminarReserva(string nroPedido, string talonario)
-        {
-            try
-            {
-                bool EliminoConExito = false;
-                if (dbPedido.EliminarReservaDePedido(nroPedido))
-                {
-                    dbPedido.ActualizarEstadoDePedidoYLeyenda5(nroPedido, Convert.ToInt32(talonario), Convert.ToInt32(ConfigurationManager.AppSettings.Get("EstadoPedido")), false);
-                    EliminoConExito = true;
-                }
-                return EliminoConExito;
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
-        }
-
-        public bool SumarStockSta19(Pedido oPedido)
-        {
-            try
-            {
-                bool OperacionConExito = false;
-                foreach (var item in oPedido.Detalle)
-                {
-                    if (dbPedido.SumarStockSTA19(item.Cantidad, item.Codigo, oPedido.Deposito))
-                    {
-                        OperacionConExito = true;
+                                    Interno++;
+                                    talon = new KeyValuePair<string, int>(talon.Key, talon.Value + 1);
+                                }
+                            }
+                            tra.Commit();
+                        }
+                        catch (Exception)
+                        {
+                            tra.Rollback();
+                            throw;
+                        }
                     }
                 }
+            }
+            catch (Exception)
+            {
+                //grabar log de errores
+            }
 
-                return OperacionConExito;
+            return true;
+
+        }
+
+        public bool EliminarReserva(List<Pedido> lPedidos)
+        {
+            bool Guardo = false;
+            try
+            {
+                try
+                {
+                    foreach (Pedido oPedido in lPedidos)
+                    {
+                        string ncomp_in_v = TraerDato(false, "SEIN_RELACION_PEDIDOS_REMITOS_SISTEMA", "NCOMP_IN_S", false, "NRO_PEDIDO", true, oPedido.Numero + "' AND TCOMP_IN_S='" + ConfigurationManager.AppSettings.Get("TCOMP_IN_S") + "");
+                        using (SqlConnection cnn = new SqlConnection(ConfigurationManager.AppSettings.Get("Conexion").ToString()))
+                        {
+                            cnn.Open();
+                            using (SqlTransaction tra = cnn.BeginTransaction())
+                            {
+                                try
+                                {
+                                    using (SqlCommand com = new SqlCommand("", cnn, tra))
+                                    {
+                                        if (dbPedido.EliminarReservaDePedido(oPedido.TalonarioPedido, ncomp_in_v, com))
+                                        {
+                                            foreach (var item in oPedido.Detalle)
+                                            {
+                                                dbPedido.SumarStockSTA19(item.Cantidad, item.Codigo, oPedido.Deposito, com);
+                                            }
+                                            dbPedido.ActualizarEstadoDePedidoYLeyenda5(oPedido.Numero, oPedido.TalonarioPedido, Convert.ToInt32(ConfigurationManager.AppSettings.Get("EstadoPedido")), false, com);
+                                        }
+                                    }
+                                }
+                                catch (Exception)
+                                {
+                                    tra.Rollback();
+                                }
+                                tra.Commit();
+                                Guardo = true;
+                            }
+                        }
+                    }
+                }
+                catch (Exception)
+                {
+
+                    throw;
+                }
             }
             catch (Exception ex)
             {
                 throw ex;
             }
+            return Guardo;
         }
 
         public bool GuardarClienteGva14(ClienteGva14 cliente)
